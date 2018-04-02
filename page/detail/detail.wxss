@@ -1,0 +1,56 @@
+/* page/detail/detail.wxss */
+video {
+    width:300px;
+    height:192px;
+    display:inline-block;
+    line-height:0;
+    overflow:hidden;
+    position:relative;
+}
+
+.record-list{
+    margin-bottom: 96px;
+}
+
+.record-footer{
+    text-align: center;
+    margin-bottom: 0;
+}
+.fixed-bottom{
+    position:fixed;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.record-box{
+    padding-bottom: 2rpx;
+    opacity: 0.85;
+    background-color: #F8F8F8;
+}
+
+.btn-stop-record{
+    vertical-align: middle;
+    width:56px;
+    height: 56px;
+}
+.btn-play-record{
+    vertical-align: middle;
+    width:56px;
+    height: 56px;
+}
+.btn-start-record{
+    vertical-align: middle;
+    margin-left: 20%;
+    margin-right: 20%;
+    width:56px;
+    height: 56px;
+}
+
+.master-record{
+    margin-right: 5px;
+    vertical-align: middle;
+    width:20px;
+    height: 20px;
+}

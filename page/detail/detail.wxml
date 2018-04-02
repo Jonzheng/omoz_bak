@@ -1,0 +1,55 @@
+<view class="container">
+    <view class="page-head">
+        <view class="page-head-title">一目连_触碰_0</view>
+        <view class="page-head-line"></view>
+    </view>
+
+  <view class="page-body">
+        <view class="page-section tc">
+            <video id="myVideo" src="{{src_vd}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn controls></video>
+
+        </view>
+
+        <view class="page-section" style="text-align: center;">
+            <audio style="text-align: center" src="{{current.src}}" poster="{{current.poster}}" name="{{current.name}}" author="{{current.author}}" action="{{audioAction}}" controls></audio>
+        </view>
+        
+    <view class="weui-cells__title">角虫</view>
+        <view class="weui-cells weui-cells_after-title record-list">
+            <block wx:for="{{list_master}}" wx:key="icon_master">
+                <template is="ele-master" data="{{...item}}"/>
+            </block>
+        </view>
+
+        <view class="fixed-bottom">
+            <view class="record-box">
+                <view class="weui-progress">
+                    <view class="weui-progress__bar">
+                        <progress wx:if="{{isStatic}}" percent="{{progress_record_static}}" stroke-width="3" />
+                        <progress wx:else percent="{{progress_record}}" stroke-width="3" />
+                    </view>
+                </view>
+
+                <image wx:if='{{isPlaying}}' src="{{icon_stop}}" bindtap="stopMyVoice" class="btn-play-record"></image>
+                <image wx:elif='{{hasTmp}}' src="{{icon_play}}" bindtap="playMyVoice" class="btn-play-record"></image>
+                <image wx:else src="" class="btn-play-record"></image>
+
+                <image wx:if="{{isRecording}}" src="{{icon_stop}}" bindtap="stopRecord" class="btn-start-record"></image>
+                <image wx:else src="{{icon_record}}" bindtap="startRecord" class="btn-start-record"></image>
+
+                <image wx:if='{{hasTmp}}' src="{{icon_upload}}" bindtap="uploadRecord" class="btn-stop-record"></image>
+                <image wx:else src="" class="btn-stop-record"></image>
+            </view>
+        </view>
+  </view>
+</view>
+
+<template name="ele-master">
+    <view class="weui-cell">
+        <view class="weui-cell__hd">
+            <image src="{{icon_master}}" class="master-record"></image>
+        </view>
+        <view class="weui-cell__bd">播放(...)</view>
+        <view class="weui-cell__ft">笔芯({{pen}}) 评论({{comment}}) ...</view>
+    </view>
+</template>
