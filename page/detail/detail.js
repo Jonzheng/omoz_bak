@@ -2,9 +2,10 @@ const recorderManager = wx.getRecorderManager()
 const options = {
     duration: 10000,
     sampleRate: 44100,
-    numberOfChannels: 2,
-    encodeBitRate: 192000,
-    format: 'mcc'
+    numberOfChannels: 1,
+    encodeBitRate: 320000,
+    format: 'mp3',
+    frameSize: 0.1
 }
 
 const innerAudioContext = wx.createInnerAudioContext()
@@ -12,6 +13,7 @@ innerAudioContext.autoplay = false
 innerAudioContext.onPlay(() => {
     console.log('onPlay')
 })
+
 innerAudioContext.onError((res) => {
     console.log(res.errMsg)
     console.log(res.errCode)
@@ -25,10 +27,9 @@ function _next() {
     this.setData({
         progress_record: this.data.progress_record + 1
     });
-    console.log(this.data.progress_record)
     setTimeout(function () {
         _next.call(that);
-    }, 95);
+    }, 100);
 }
 
 Page({
@@ -37,6 +38,7 @@ Page({
     },
     videoErrorCallback: function(e) {
         console.log('视频错误信息:')
+        
         console.log(e.detail.errMsg)
     },
     data: {
@@ -83,6 +85,11 @@ Page({
                 isStatic:false
             })
             _next.call(this);
+        })
+
+        recorderManager.onFrameRecorded((res) => {
+            console.log(2222)
+            console.log(res)
         })
 
         recorderManager.onStop((res) => {
