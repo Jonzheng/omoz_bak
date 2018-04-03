@@ -2,10 +2,10 @@ const recorderManager = wx.getRecorderManager()
 const options = {
     duration: 10000,
     sampleRate: 44100,
-    numberOfChannels: 1,
+    numberOfChannels: 2,
     encodeBitRate: 320000,
     format: 'mp3',
-    frameSize: 0.1
+    frameSize: 10
 }
 
 const innerAudioContext = wx.createInnerAudioContext()
@@ -76,7 +76,6 @@ Page({
 
     startRecord: function (e) {
         recorderManager.start(options)
-
         recorderManager.onStart(() => {
             console.log('recorder start')
             this.setData({
@@ -88,11 +87,11 @@ Page({
         })
 
         recorderManager.onFrameRecorded((res) => {
-            console.log(2222)
             console.log(res)
         })
 
         recorderManager.onStop((res) => {
+            console.log(res)
             this.setData({
                 tempFile: res,
                 isRecording: false,
