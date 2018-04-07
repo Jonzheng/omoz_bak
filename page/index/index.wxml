@@ -9,7 +9,20 @@
                 </block>
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
+
+
+
             <view class="weui-tab__panel">
+    <view class="loading-center">
+        <view class="loading-center-absolute">
+            <view class="sound-0"></view>
+            <view class="sound-1"></view>
+            <view class="sound-2"></view>
+            <view class="sound-3"></view>
+            <view class="sound-4"></view>
+        </view>
+    </view>
+            
                 <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
 
                     <view class="weui-panel__bd border-tottom">

@@ -15,30 +15,34 @@
         </view>
         
     <view class="weui-cells__title">角虫</view>
-        <view class="weui-cells weui-cells_after-title record-list">
-            <block wx:for="{{list_master}}" wx:key="icon_master">
-                <template is="ele-master" data="{{...item}}"/>
+        <view class="weui-cells record-list">
+
+            <block wx:for="{{list_master}}" wx:key="mid">
+                <template is="ele-master" data="{{...item,index,icon_like,icon_comment,icon_more}}"/>
             </block>
+
         </view>
 
         <view class="fixed-bottom">
             <view class="record-box">
-                <view class="weui-progress">
-                    <view class="weui-progress__bar">
-                        <progress wx:if="{{isStatic}}" percent="{{progress_record_static}}" stroke-width="3" />
-                        <progress wx:else percent="{{progress_record}}" stroke-width="3" />
-                    </view>
+                <view class="my-progress-box">
+                        <view wx:if="{{isRecording}}" class="my-progress" style="animation: totop {{dura}}s linear"></view>
+                        <view wx:else class="my-progress" style="width:{{progress_record}}%"></view>
+
+                        <view wx:if="{{isPlaying}}" class="my-progress-play" style="width:{{progress_record}}%;animation: totop {{dura+0.3}}s linear"></view>
+                        <view wx:else></view>
                 </view>
 
-                <image wx:if='{{isPlaying}}' src="{{icon_stop}}" bindtap="stopMyVoice" class="btn-play-record"></image>
-                <image wx:elif='{{hasTmp}}' src="{{icon_play}}" bindtap="playMyVoice" class="btn-play-record"></image>
-                <image wx:else src="" class="btn-play-record"></image>
+                <image wx:if='{{isPlaying}}' src="{{icon_stop}}" bindtap="stopMyVoice" class="btn-record an-breath"></image>
+                <image wx:elif='{{hasTmp}}' src="{{icon_play}}" bindtap="playMyVoice" class="btn-record">
+                </image>
+                <image wx:else src="" class="btn-record"></image>
 
-                <image wx:if="{{isRecording}}" src="{{icon_stop}}" bindtap="stopRecord" class="btn-start-record"></image>
-                <image wx:else src="{{icon_record}}" bindtap="startRecord" class="btn-start-record"></image>
+                <image wx:if="{{isRecording}}" src="{{icon_stop}}" bindtap="stopRecord" class="btn-record btn-center an-breath"></image>
+                <image wx:else src="{{icon_record}}" bindtap="startRecord" class="btn-record btn-center"></image>
 
-                <image wx:if='{{hasTmp}}' src="{{icon_upload}}" bindtap="uploadRecord" class="btn-stop-record"></image>
-                <image wx:else src="" class="btn-stop-record"></image>
+                <image wx:if='{{isPlayed}}' src="{{icon_upload}}" bindtap="uploadRecord" class="btn-record"></image>
+                <image wx:else src="" class="btn-record"></image>
             </view>
         </view>
   </view>
@@ -49,7 +53,28 @@
         <view class="weui-cell__hd">
             <image src="{{icon_master}}" class="master-record"></image>
         </view>
-        <view class="weui-cell__bd">播放(...)</view>
-        <view class="weui-cell__ft">笔芯({{pen}}) 评论({{comment}}) ...</view>
+        <view class="play-foo-box">
+            <block wx:if="{{isListen}}">
+                <block wx:for="{{[0.1, 0.5, 0.3, 0.2, 0, 0.2, 0.3, 0.4, 0, 0.6, 0.5]}}" >
+                    <view class="play-foo" style="animation: scay 1.5s infinite {{item}}s;"></view>
+                </block>
+            </block>
+            <block wx:else>
+                <view class="btn-play-box an" bindtap="playFoo" data-idx="{{index}}">
+                    <view class="btn-one btn-listen"></view>
+                    <view class="btn-two btn-listen"></view>
+                    <view class="btn-three btn-listen"></view>
+                </view>
+            </block>
+        </view>
+        <view class="box-right">
+            <view class="inline pd-bottom">赞({{pen}})</view>
+            <image src="{{icon_like}}" class="sm-icon inline"></image>
+            
+            <view class="inline pd-bottom">评论({{comment}})</view>
+            <image src="{{icon_comment}}" class="sm-icon inline"></image>
+
+            <image src="{{icon_more}}" class="sm-icon inline mn-left"></image>
+        </view>
     </view>
 </template>

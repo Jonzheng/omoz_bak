@@ -58,29 +58,3 @@ box-shadow: 0 0 40px #d5093c;
 
 }
 }
-
-.tip-top-ar{
-    position: absolute;
-    border: 8px solid transparent;
-
-    border-top-color: transparent;
-    border-top-style: solid;
-    border-top-width: 8px;
-
-    border-right-color: transparent;
-    border-right-style: solid;
-    border-right-width: 8px;
-
-    border-bottom-color: #383838;
-    border-bottom-style: solid;
-    border-bottom-width: 8px;
-
-    border-left-color: transparent;
-    border-left-style: solid;
-    border-left-width: 8px;
-
-    z-index:999px;
-    width:0;
-    bottom:0px;
-    animation: toplay 1s ease-out;
-}
