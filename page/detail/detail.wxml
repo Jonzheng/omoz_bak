@@ -68,13 +68,26 @@
             </block>
         </view>
         <view class="box-right">
-            <view class="inline pd-bottom">赞({{pen}})</view>
             <image src="{{icon_like}}" class="sm-icon inline"></image>
+            <view class="inline pd-bottom">({{pen}})</view>
             
-            <view class="inline pd-bottom">评论({{comment}})</view>
+            <!--
             <image src="{{icon_comment}}" class="sm-icon inline"></image>
-
-            <image src="{{icon_more}}" class="sm-icon inline mn-left"></image>
+            <view class="inline pd-bottom">评论({{comment}})</view>
+            -->
+            <image src="{{icon_more}}" class="sm-icon inline"></image>
         </view>
     </view>
+    <!--
+    <view class="box-comment">
+        <view class="box-comment-ele">
+            <image src="{{icon_master}}" class="master-record"></image>
+            <view class='font-comment'>无敌</view>
+        </view>
+        <view class="box-comment-ele">
+            <image src="../../image/master4.png" class="master-record"></image>
+            <view class='font-comment'>i thk ok</view>
+        </view>
+    </view>
+    -->
 </template>
