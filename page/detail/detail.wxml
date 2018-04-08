@@ -68,9 +68,9 @@
             </block>
         </view>
         <view class="box-right">
-            <image src="{{icon_like}}" class="sm-icon inline"></image>
-            <view class="inline pd-bottom">({{pen}})</view>
             
+            <view class="inline pd-bottom">({{pen}})</view>
+            <image src="{{icon_like}}" class="sm-icon inline"></image>
             <!--
             <image src="{{icon_comment}}" class="sm-icon inline"></image>
             <view class="inline pd-bottom">评论({{comment}})</view>

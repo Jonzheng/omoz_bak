@@ -1,3 +1,60 @@
+
+
+.box-info{
+    position:relative;
+    background-color:#fff;
+    color: #666;
+}
+
+.box-coin{
+    text-align:right;
+    flex:1;
+    color: #555;
+    font-weight: bold;
+}
+
+.coin{
+    margin-right: 6rpx;
+    margin-left: 8rpx;
+    width:52rpx;
+    height:52rpx;
+}
+
+.avatar{
+    margin-right: 5px;
+    width:100rpx;
+    height:100rpx;
+    border-radius:50%;
+}
+
+.box-top{
+    border-top: 1px #ccc solid;
+    border-bottom: 1px #ccc solid;
+    padding-top: 8rpx;
+    padding-bottom: 8rpx;
+    height:120rpx;
+}
+
+.level{
+    border: 1px #eee solid; 
+    box-shadow: 0px 0px 1px 1px #fff;
+    border-radius: 36px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*///////////////////////////////////////////*/
+
+
 .chest {
     width: 250px;
     height: 250px;

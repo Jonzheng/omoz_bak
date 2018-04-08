@@ -1,8 +1,25 @@
 <!--pages/index.wxml-->
 <view class="page">
-    <view class='chest'>
-        <view class='heart left side top'></view>
-        <view class='heart center'></view>
-        <view class='heart right side'></view>
+    <view class='box-info' bindtap='onclick'>
+
+        <view class='weui-cell box-top'>
+            <image class='avatar' src='{{icon_avatar}}'></image>
+            <view class='nickname'>{{nickname}}</view>
+            <view class='box-coin'>1</view>
+            <image class='coin' src='{{icon_coin}}'></image>
+        </view>
+
+        <!--
+        <view class='chest' bindtap='onclick'>
+            <view class='heart left side top'></view>
+            <view class='heart center'></view>
+            <view class='heart right side'></view>
+        </view>
+        -->
+
     </view>
+
+
+
+
 </view>
