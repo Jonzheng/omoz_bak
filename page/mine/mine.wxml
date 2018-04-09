@@ -6,9 +6,19 @@
             <image class='avatar' src='{{icon_avatar}}'></image>
             <view class='nickname'>{{nickname}}</view>
             <view class='box-coin'>1</view>
-            <image class='coin' src='{{icon_coin}}'></image>
+            <image class='coin an-coin' src='{{icon_coin}}'></image>
         </view>
 
+
+        <view class='box-pet' bindtap='onclick'>
+            <view class='pet an-run'></view>
+            
+            <view class='pre-ball an-fall'>
+                <view class="wobble an-wobble">
+                    <image src='../../image/tennis.png' class='ball an-spin'></image>
+                </view>
+            </view>
+        </view>
         <!--
         <view class='chest' bindtap='onclick'>
             <view class='heart left side top'></view>
