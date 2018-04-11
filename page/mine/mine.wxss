@@ -36,12 +36,12 @@
 }
 
 @keyframes fall-k{
-    10%{}
+    8%{top:700rpx; left:500rpx;transform:scaleX(1.1)}
+    10%{top:710rpx; left:460rpx;transform:scaleX(0.9)}
 
-
-    65%{transform:scaleX(1)}
-    66%{top:720rpx; left:480rpx;transform:scaleX(1.1)}
-    67%{transform:scaleX(1)}
+    15%{transform:scaleX(1)}
+    16%{top:720rpx; left:480rpx;transform:scaleX(1.1)}
+    17%{transform:scaleX(1)}
 
 
     100%{top:720rpx;left:485rpx;}
@@ -58,7 +58,7 @@
 
     49%{ transform:scaleY(1);}
     50%{
-        left:495rpx;
+        left:636rpx;
         transform:scaleY(1.1);
     }
     51%{transform:scaleY(1);}
@@ -74,7 +74,7 @@
     animation-duration: 4s;
     animation-timing-function: linear;
     animation-delay: 0s;
-    animation-iteration-count: 10;
+    animation-iteration-count: 20;
     animation-direction: normal;
 
     animation-fill-mode: forwards;
@@ -101,7 +101,8 @@
 }
 
 .an-spin{
-    animation: spin-k 3s;
+    animation: spin-k 1s;
+    animation-iteration-count: 60;
 }
 
 .an-wobble{
@@ -113,7 +114,7 @@
         transform: scaleX(1.0);
     }
     25%, 55%, 75%, 87%, 97% {
-        transform: scaleX(1.02) scaleY(0.95);
+        transform: scaleX(0.9) scaleY(0.95);
     }
     30%, 60%, 80% {
         transform: scaleX(0.96) scaleY(1.04);
@@ -122,13 +123,12 @@
         transform: scaleX(1.01);
     }
     99%{
-        transform: scaleX(1.04);
+        transform: scaleX(1.2);
     }
 
 }
 @keyframes spin-k {
-   0% { -webkit-transform: rotate(-180deg); }  
-   100% { -webkit-transform: rotate(360deg); }  
+   50% { transform: scaleX(1.2); }
 }  
 
 .pet{

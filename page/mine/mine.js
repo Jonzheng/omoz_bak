@@ -22,8 +22,8 @@ Page({
         })
     },
     point: function (e) {
-        var au = new AudioContext();
-        console.log(au)
+        //var au = new AudioContext();
+        //console.log(au)
         var that = this
         console.log(e.detail)
         var _taps = this.data.taps
