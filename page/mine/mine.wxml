@@ -1,5 +1,5 @@
 <!--pages/index.wxml-->
-<view class="page">
+<view class="page" bindtap='point'>
     <view class='box-info' bindtap='onclick'>
 
         <view class='weui-cell box-top'>
@@ -12,12 +12,15 @@
 
         <view class='box-pet' bindtap='onclick'>
             <view class='pet an-run'></view>
-            
-            <view class='pre-ball an-fall'>
+
+        <block wx:for="{{taps}}">
+            <view class='pre-ball an-fall' style='top:{{po_y}}px;left:{{po_x}}px'>
                 <view class="wobble an-wobble">
                     <image src='../../image/tennis.png' class='ball an-spin'></image>
                 </view>
             </view>
+        </block>
+            
         </view>
         <!--
         <view class='chest' bindtap='onclick'>

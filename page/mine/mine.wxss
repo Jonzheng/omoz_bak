@@ -1,4 +1,18 @@
+.ele-tap{
+    position: absolute;
+    width: 60rpx;
+    height: 60rpx;
 
+    opacity: 0.6;
+    border: 2px solid blanchedalmond;
+    box-shadow: 0px 0px 10px 10px #bbb;
+
+    border-radius:50%;
+}
+
+.topoint{
+    position: absolute;
+}
 
 .box-info{
     border-top: 1px #ccc solid;
@@ -24,9 +38,11 @@
 @keyframes fall-k{
     10%{}
 
+
     65%{transform:scaleX(1)}
     66%{top:720rpx; left:480rpx;transform:scaleX(1.1)}
     67%{transform:scaleX(1)}
+
 
     100%{top:720rpx;left:485rpx;}
 }
@@ -65,7 +81,7 @@
     /*animation-play-state: paused;*/
 }
 .pre-ball{
-    position: relative;
+    position: absolute;
     top:0rpx;
     left:50%;
 
@@ -76,6 +92,7 @@
     border-radius:50%;
 }
 
+
 .ball{
     position: absolute;
     width:80rpx;
@@ -84,11 +101,11 @@
 }
 
 .an-spin{
-    animation: spin-k 2.2s 0.2s 1;
+    animation: spin-k 3s;
 }
 
 .an-wobble{
-    animation: wobble-k 0.8s 3;
+    animation: wobble-k 2s;
 }
 
 @keyframes wobble-k{
