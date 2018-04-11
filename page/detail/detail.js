@@ -3,7 +3,7 @@ const options = {
     duration: 10000,
     sampleRate: 44100,
     numberOfChannels: 2,
-    encodeBitRate: 192000,
+    encodeBitRate: 320000,
     format: 'mp3',
     frameSize: 50
 }
