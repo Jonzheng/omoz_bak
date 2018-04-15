@@ -3,8 +3,8 @@
     <view class='box-info' bindtap='onclick'>
 
         <view class='weui-cell box-top'>
-            <image class='avatar' src='{{icon_avatar}}'></image>
-            <view class='nickname'>{{nickname}}</view>
+            <image class='avatar' src='{{userInfo.avatarUrl}}' bindlongpress='black'></image>
+            <view class='nickname'>{{userInfo.nickName}}</view>
             <view class='box-coin'>1</view>
             <image class='coin an-coin' src='{{icon_coin}}'></image>
         </view>
@@ -13,7 +13,7 @@
         <view class='box-pet' bindtap='onclick'>
             <view class='pet an-run'></view>
 
-        <block wx:for="{{taps}}">
+        <block wx:for="{{taps}}" wx:key=''>
             <view class='pre-ball an-fall' style='top:{{po_y}}px;left:{{po_x}}px'>
                 <view class="wobble an-wobble">
                     <image src='../../image/tennis.png' class='ball an-spin'></image>

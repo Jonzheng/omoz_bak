@@ -40,28 +40,29 @@
     10%{top:710rpx; left:460rpx;transform:scaleX(0.9)}
 
     15%{transform:scaleX(1)}
-    16%{top:720rpx; left:480rpx;transform:scaleX(1.1)}
+    16%{top:725rpx; left:480rpx;transform:scaleX(1.1)}
     17%{transform:scaleX(1)}
 
-
-    100%{top:720rpx;left:485rpx;}
+    95%{top:725rpx; left:480rpx;transform:scale(1);}
+    100%{top:444rpx;left:999rpx;transform:scale(0.2);}
 }
 
 @keyframes run{
-
-    29%{transform:scaleX(1);}
+    3%, 29%, 31%, 49%, 51%{
+        transform:scaleX(1);
+    }
+    1%, 30%, 50%{
+        transform:scaleX(1.2);
+    }
+    2%,50%{
+        transform:scaleY(1.2);
+    }
     30%{
         top:695rpx;
-        transform:scaleX(1.1);
     }
-    31%{transform:scaleX(1);}
-
-    49%{ transform:scaleY(1);}
     50%{
         left:636rpx;
-        transform:scaleY(1.1);
     }
-    51%{transform:scaleY(1);}
 
     100%{
         left:20rpx;
@@ -74,7 +75,7 @@
     animation-duration: 4s;
     animation-timing-function: linear;
     animation-delay: 0s;
-    animation-iteration-count: 20;
+    animation-iteration-count: 30;
     animation-direction: normal;
 
     animation-fill-mode: forwards;
@@ -102,7 +103,7 @@
 
 .an-spin{
     animation: spin-k 1s;
-    animation-iteration-count: 60;
+    animation-iteration-count: 6;
 }
 
 .an-wobble{
@@ -177,15 +178,15 @@
 
 @keyframes coin-k{
     98%{
-        box-shadow: 0px 0px 1px 1px #fff;
+        box-shadow: 0px 0px 2px 2px #fff;
         opacity: 1;
     }
     99%{
         box-shadow: 0px 0px 5px 5px #eee;
-        opacity: 0.9;
+        opacity: 0.8;
     }
     100%{
-        box-shadow: 0px 0px 1px 1px #fff;
+        box-shadow: 0px 0px 2px 2px #fff;
         opacity: 1;
     }
 }
