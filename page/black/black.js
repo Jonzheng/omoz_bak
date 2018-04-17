@@ -4,7 +4,7 @@ Page({
     data: {
         src_video: '',
         src_audio: '',
-        c_name: 'none',
+        c_name: 'foo',
         level: 'ssr',
         ski: '0',
         ver: '0'
@@ -17,7 +17,6 @@ Page({
         })
         wx.chooseVideo({
             success: function (res) {
-                console.log(res)
                 that.setData({
                     src_video: res.tempFilePath
                 })
@@ -33,6 +32,7 @@ Page({
         wx.chooseImage({
             count: 1,
             success: function (res) {
+                console.log(res)
                 that.setData({
                     src_audio: res.tempFilePaths[0]
                 })
@@ -67,11 +67,15 @@ Page({
         var file_id = this.data.level + '_' + this.data.c_name + '_' + this.data.ski + '_' + this.data.ver
         // 上传
         wx.uploadFile({
-            url: config.service.upVideoUrl,
-            filePath: that.data.src_video,
+            url: config.service.upAudioUrl,
+            filePath: that.data.src_audio,
             name: 'file',
             formData: {
                 file_id: file_id,
+                level: that.data.level,
+                ski: that.data.ski,
+                ver: that.data.ver,
+                c_name: that.data.c_name
             },
             header: {
                 'content-type': 'multipart/form-data'
@@ -79,7 +83,7 @@ Page({
             success: function (res) {
                 console.log('success')
                 console.log(res)
-                //that.uploadAudio();
+                //that.uploadVideo();
             },
 
             fail: function (e) {
@@ -87,32 +91,8 @@ Page({
             }
         })
     },
-    uploadAudio: function() {
-        var that = this
-        var src_audio = this.data.src_audio
-        wx.uploadFile({
-            url: config.service.upAudioUrl,
-            filePath: src_audio,
-            name: 'file',
-            formData: {
-                file_id: that.data.file_id,
-                level: that.data.level,
-                ski:that.data.ski,
-                ver:that.data.ver,
-                c_name:that.data.c_name
-            },
-            header: {
-                'content-type': 'multipart/form-data'
-            },
-            success: function (res) {
-                console.log('success')
-                console.log(res)
-            },
-
-            fail: function (e) {
-                console.log('fail')
-            }
-        })
+    uploadVideo: function() {
+        console.log('up Video is comming soon')
     }
 
 })

@@ -2,8 +2,10 @@
 
   <view class="page-body">
     <view class="page-section">
-      <view class="page-body-info">
+      
 
+        <!--
+        <view class="page-body-info">
         <block wx:if="{{src_video === ''}}">
           <view class="image-plus image-plus-nb" bindtap="chooseVideo">
             <view class="image-plus-horizontal"></view>
@@ -18,13 +20,13 @@
       </view>
 
         <button bindtap="chooseVideo">选择视频</button>
-
+        -->
       <view class="page-section">
         <view class="page-section-title">式神名字</view>
         <view class="weui-cells weui-cells_after-title">
           <view class="weui-cell weui-cell_input">
             <view class="weui-cell__bd">
-              <input class="weui-input" maxlength="10" bindinput="bindKeyInput" name="c_name" placeholder="" />
+              <input class="weui-input" maxlength="10" bindinput="bindKeyInput" name="c_name"/>
             </view>
           </view>
         </view>
@@ -62,13 +64,8 @@
       </view>
 
     <button bindtap="chooseImage">选择音频</button>
-
-    <view class="page-section page-section-gap" style="text-align: center;">
-      <audio style="text-align: left" src="{{src_audio}}" poster="" name="" author="" action="" controls></audio>
-    </view>
-    
-
-    <input class="weui-input prev" disabled name="file_id" value='{{level}}_{{c_name}}_{{ski}}_{{ver}}'/>
+    <input class="weui-input prev" disabled value='{{src_audio}}'/>
+    <input class="weui-input prev" disabled value='{{level}}_{{c_name}}_{{ski}}_{{ver}}'/>
 
       <view class="btn-area">
         <button bindtap="upload">上传</button>
