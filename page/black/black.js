@@ -4,7 +4,8 @@ Page({
     data: {
         src_video: '',
         src_audio: '',
-        c_name: 'foo',
+        c_name: '佚名',
+        s_name: 'foo',
         level: 'ssr',
         ski: '0',
         ver: '0'
@@ -39,9 +40,16 @@ Page({
             }
         })
     },
-    bindKeyInput: function (e) {
+
+    c_nameInput: function (e) {
         this.setData({
             c_name: e.detail.value
+        })
+    },
+
+    s_nameInput: function (e) {
+        this.setData({
+            s_name: e.detail.value
         })
     },
 
@@ -64,7 +72,7 @@ Page({
     upload: function() {
         var that = this
         console.log(this.data)
-        var file_id = this.data.level + '_' + this.data.c_name + '_' + this.data.ski + '_' + this.data.ver
+        var file_id = this.data.level + '_' + this.data.s_name + '_' + this.data.ski + '_' + this.data.ver
         // 上传
         wx.uploadFile({
             url: config.service.upAudioUrl,
@@ -75,7 +83,8 @@ Page({
                 level: that.data.level,
                 ski: that.data.ski,
                 ver: that.data.ver,
-                c_name: that.data.c_name
+                c_name: that.data.c_name,
+                s_name: that.data.s_name
             },
             header: {
                 'content-type': 'multipart/form-data'

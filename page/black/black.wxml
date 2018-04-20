@@ -26,7 +26,16 @@
         <view class="weui-cells weui-cells_after-title">
           <view class="weui-cell weui-cell_input">
             <view class="weui-cell__bd">
-              <input class="weui-input" maxlength="10" bindinput="bindKeyInput" name="c_name"/>
+              <input class="weui-input" maxlength="16" bindinput="c_nameInput"/>
+            </view>
+          </view>
+        </view>
+
+        <view class="page-section-title">名字缩写</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+              <input class="weui-input" maxlength="10" bindinput="s_nameInput"/>
             </view>
           </view>
         </view>
@@ -65,7 +74,7 @@
 
     <button bindtap="chooseImage">选择音频</button>
     <input class="weui-input prev" disabled value='{{src_audio}}'/>
-    <input class="weui-input prev" disabled value='{{level}}_{{c_name}}_{{ski}}_{{ver}}'/>
+    <input class="weui-input prev" disabled value='{{level}}_{{s_name}}_{{ski}}_{{ver}}'/>
 
       <view class="btn-area">
         <button bindtap="upload">上传</button>
