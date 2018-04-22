@@ -1,0 +1,21 @@
+<view class="container">
+    <view class="page-head">
+        <view class="page-head-title">-小黑屋-</view>
+        <view class="page-head-line"></view>
+    </view>
+
+  <view class="page-body">
+    <view class="btn-area">
+
+      <navigator url="../b_list/list" hover-class="navigator-hover">
+        <button type="default">语音列表</button>
+      </navigator>
+
+      <navigator url="../b_audio/audio" hover-class="navigator-hover">
+        <button type="default">上传语音素材</button>
+      </navigator>
+
+    </view>
+  </view>
+
+</view>

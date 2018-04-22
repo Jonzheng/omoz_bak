@@ -1,0 +1,69 @@
+  <view class="page-body">
+    <view class="page-head">
+        <view class="page-head-title">-出场准备-</view>
+        <view class="page-head-line"></view>
+    </view>
+
+        <view class="page-section tc">
+            <video id="myVideo" src="{{src_vd}}" danmu-list="{{danmuList}}" enable-danmu danmu-btn controls></video>
+        </view>
+
+        <view class="page-section" style="text-align: center;">
+            <audio src="{{src_audio}}" poster="{{poster}}" name="{{serifu}}" author="{{roma}}" controls>
+            </audio>
+        </view>
+
+    <view class="page-section">
+        <view class="page-section-title">标题</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+              <input class="weui-input" maxlength="66" bindinput="titleInput" value='{{title}}'/>
+            </view>
+          </view>
+        </view>
+
+        <view class="page-section-title">台词</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+              <input class="weui-input" maxlength="66" bindinput="serifuInput"/>
+            </view>
+          </view>
+        </view>
+
+        <view class="page-section-title">罗马音</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+              <input class="weui-input" maxlength="66" bindinput="romaInput"/>
+            </view>
+          </view>
+        </view>
+
+        <view class="page-section-title">空耳</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+              <input class="weui-input" maxlength="66" bindinput="konerInput"/>
+            </view>
+          </view>
+        </view>
+
+        <button bindtap="chooseImage">选择封面</button>
+
+        <view class="weui-panel__bd border-tottom">
+            <navigator url="../detail/detail" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                    <image class="weui-media-box__thumb" src="{{src_image}}" />
+                </view>
+                <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                    <view class="weui-media-box__title">{{title}}</view>
+                    <view class="weui-media-box__desc">{{serifu}}</view>
+                </view>
+            </navigator>
+        </view>
+
+        <button bindtap="push">完成</button>
+    </view>
+  </view>

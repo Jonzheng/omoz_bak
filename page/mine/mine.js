@@ -37,7 +37,7 @@ Page({
     black: function() {
         console.log("to black")
         console.log(this.data.userInfo)
-        wx.navigateTo({ url: '../black/black' })
+        wx.navigateTo({ url: '../b_index/index' })
     },
 
     getUserInfo: function () {

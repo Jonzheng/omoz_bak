@@ -3,7 +3,10 @@
     "page/index/index",
     "page/detail/detail",
     "page/mine/mine",
-    "page/black/black",
+    "page/b_index/index",
+    "page/b_list/list",
+    "page/b_prepare/prepare",
+    "page/b_audio/audio",
     "page/logs/logs"
   ],
   "window":{

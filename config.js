@@ -10,6 +10,9 @@ var config = {
     // 下面的地址配合云端 Demo 工作
     service: {
         host,
+        qAudioUrl: `${host}/weapp/qAudio`,
+        qListUrl: `${host}/weapp/qList`,
+        inListUrl: `${host}/weapp/inList`,
         // 上传图片接口
         upVideoUrl: `${host}/weapp/upVideo`,
 

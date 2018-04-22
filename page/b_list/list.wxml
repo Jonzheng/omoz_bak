@@ -1,0 +1,21 @@
+
+  <view class="page-body">
+    <view class="page-head">
+        <view class="page-head-title">语音列表_ALL</view>
+        <view class="page-head-line"></view>
+    </view>
+
+    <block wx:for="{{list_audio}}" wx:key="mid">
+        <template is="ele-audio" data="{{...item}}"/>
+    </block>
+    
+  </view>
+<template name="ele-audio">
+    <view class="page-section" style="text-align: center;">
+        <audio src="{{src_path}}" bindlongpress="edit" poster="{{poster}}"
+        name="{{c_name}}_技能:{{ski}}_版本:{{ver}}" author="{{status}}"
+        data-id="{{file_id}}" data-src="{{src_path}}" data-c_name="{{c_name}}" data-ski="{{ski}}" 
+        controls>
+        </audio>
+    </view>
+</template>
