@@ -2,6 +2,7 @@
   "pages":[
     "page/index/index",
     "page/detail/detail",
+    "page/lab/lab",
     "page/mine/mine",
     "page/b_index/index",
     "page/b_list/list",

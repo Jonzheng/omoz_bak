@@ -14,7 +14,8 @@
     <view class="page-section" style="text-align: center;">
         <audio src="{{src_path}}" bindlongpress="edit" poster="{{poster}}"
         name="{{c_name}}_技能:{{ski}}_版本:{{ver}}" author="{{status}}"
-        data-id="{{file_id}}" data-src="{{src_path}}" data-c_name="{{c_name}}" data-ski="{{ski}}" 
+        data-id="{{file_id}}" data-src="{{src_path}}" data-c_name="{{c_name}}" data-ski="{{ski}}"
+        data-cate="{{cate}}" data-level="{{level}}"
         controls>
         </audio>
     </view>

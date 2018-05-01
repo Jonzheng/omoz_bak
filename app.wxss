@@ -43,7 +43,8 @@ form{
   font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
 }
 .page-head{
-  padding: 60rpx 50rpx 80rpx;
+  padding-top: 20rpx;
+  padding-bottom: 50rpx;
   text-align: center;
 }
 .page-head-title{
@@ -54,7 +55,7 @@ form{
 }
 .page-head-line{
   margin: 0 auto;
-  width: 150rpx;
+  width: 280rpx;
   height: 2rpx;
   background-color: #D8D8D8;
 }

@@ -46,7 +46,9 @@ Page({
         let src_path = dataset['src']
         let c_name = dataset['c_name']
         let ski = dataset['ski']
-        let url = '../b_prepare/prepare?file_id=' + file_id + '&src_path=' + src_path + '&c_name=' + c_name + '&ski=' + ski
+        let cate = dataset['cate']
+        let level = dataset['level']
+        let url = '../b_prepare/prepare?file_id=' + file_id + '&src_path=' + src_path + '&c_name=' + c_name + '&ski=' + ski + '&cate=' + cate + '&level=' + level
         wx.navigateTo({ url: url })
     }
 

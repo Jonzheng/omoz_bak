@@ -1,3 +1,5 @@
+const audioCtx = new AudioContext();
+
 const recorderManager = wx.getRecorderManager()
 const options = {
     duration: 10000,
@@ -19,6 +21,17 @@ innerAudioContext.onError((res) => {
     console.log(res.errMsg)
     console.log(res.errCode)
 })
+
+
+const src_sound = 'https://omoz-1256378396.cos.ap-guangzhou.myqcloud.com/audio/sr_thy_0_0.MP3'
+
+const downloadTask = wx.downloadFile({
+    url: src_sound,
+    success: function (res) {
+        console.log(res)
+    }
+})
+
 
 function _next() {
     var that = this;
@@ -42,13 +55,101 @@ Page({
     onReady: function (res) {
         this.videoContext = wx.createVideoContext('myVideo')
     },
-    videoErrorCallback: function (e) {
-        console.log('视频错误信息:')
-
-        console.log(e.detail.errMsg)
+    onLoad: function (option) {
+        console.log(option)
+        this.setData({
+            file_id: option['file_id']
+        })
     },
+
+    load_src: function(e) {
+        var th = this
+        wx.request({
+            url: 'https://omoz-1256378396.cos.ap-guangzhou.myqcloud.com/audio/sr_thy_0_0.MP3',
+            responseType: 'arraybuffer',
+            success: function (audioData) {
+                console.log(audioData)
+                audioCtx.decodeAudioData(audioData.data).then(function (decodedData) {
+                    console.log('====')
+                    console.log(decodedData)
+                    var source = audioCtx.createBufferSource();
+                    var analyser = audioCtx.createAnalyser();
+                    source.buffer = decodedData
+                    source.connect(analyser)
+                    analyser.connect(audioCtx.destination);
+                    
+                    analyser.fftSize = 128;
+                    var bufferLength = analyser.frequencyBinCount;
+                    var dataArray = new Uint8Array(bufferLength);
+                    analyser.getByteFrequencyData(dataArray);
+                    console.log('-----')
+
+                    source.start()
+
+                    var count = 0
+                    var list_o = new Array()
+                    var list_m = new Array()
+                    function _render() {
+                        var that = this
+                        count += 1
+                        if (count == 360){
+                            console.log(list_m)
+                            console.log(list_o)
+                            th.setData({
+                                list_ori: list_o
+                            })
+                            return true
+                        }
+                        analyser.getByteTimeDomainData(dataArray);
+                        //analyser.getByteFrequencyData(dataArray);
+                        var sum = 0
+                        dataArray.forEach(function(v){
+                            sum += v
+                        })
+                        //console.log(Math.abs(2048 - sum))
+                        var h = Math.abs(8192 - sum) / 20
+                        if (h < 2) h = 2
+                        list_o.push(h)
+                        var m = analyser.maxDecibels
+                        list_m.push(m)
+                        setTimeout(function () {
+                            _render.call(that);
+                        }, 20);
+                    }
+                    _render()
+
+
+                    //while (true){
+                    //    
+                    //}
+
+
+                    //function _render() {
+                    //    var that = this
+                    //    count += 1
+                    //    console.log(source)
+                    //    if (count == 20){
+                    //        return true
+                    //    }
+                    //    dataArray = new Uint8Array(bufferLength);
+                    //    analyser.getByteFrequencyData(dataArray);
+                    //    //console.log(dataArray)
+                    //    setTimeout(function () {
+                    //        _render.call(that);
+                    //    }, 200);
+                    //}
+                    //_render()
+                });
+
+            }
+        })
+
+        //innerAudioContext.src = src_sound
+        //innerAudioContext.play()
+    },
+
     data: {
-        src_vd: "https://test-1256378396.cos.ap-guangzhou.myqcloud.com/video/ssr_yml_0_0.MP4",
+        src_vd: "https://test-1256378396.cos.ap-guangzhou.myqcloud.com/video/sr_br_0_0.MP4",
         list_master: [
             { mid: 1, pen: 666, comment: 66, icon_master: "../../image/master1.png", isListen: false },
             { mid: 2, pen: 233, comment: 22, icon_master: "../../image/master2.png", isListen: false },
@@ -56,6 +157,7 @@ Page({
             { mid: 4, pen: 9, comment: 6, icon_master: "../../image/master4.png", isListen: false },
             { mid: 0, pen: 3, comment: 1, icon_master: "../../image/master0.png", isListen: false },
         ],
+        list_ori:[10,12,15],
         icon_play: "../../image/play.png",
         icon_stop: "../../image/stop.png",
         icon_upload: "../../image/upload.png",

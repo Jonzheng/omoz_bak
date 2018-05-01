@@ -5,16 +5,30 @@
     </view>
 
   <view class="page-body">
+
         <view class="page-section tc">
-            <video id="myVideo" src="{{src_vd}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn controls></video>
+            <video id="myVideo" src="{{src_vd}}" show-fullscreen-btn='false' controls></video>
+        </view>
+
+        <view class="box-serifu">
+            <view class="text-pd">
+                <view class="weui-form-preview__item">
+                    <view class="text-serifu">{{current.name}}</view>
+                </view>
+                <view class="weui-form-preview__item">
+                    <view class="text-roma">{{current.author}}</view>
+                </view>
+            </view>
+            <view class="box-ori">
+                <block wx:for="{{list_ori}}" wx:key="mid">
+                    <view class="ele-ori" style="height:{{item}}rpx;"></view>
+                </block>
+            </view>
+            <button type="default" bindtap="load_src">播放</button>
 
         </view>
 
-        <view class="page-section" style="text-align: center;">
-            <audio style="text-align: center" src="{{current.src}}" poster="{{current.poster}}" name="{{current.name}}" author="{{current.author}}" action="{{audioAction}}" controls></audio>
-        </view>
-        
-    <view class="weui-cells__title">角虫</view>
+    <view class="weui-cells__title">录音:</view>
         <view class="weui-cells record-list">
 
             <block wx:for="{{list_master}}" wx:key="mid">
