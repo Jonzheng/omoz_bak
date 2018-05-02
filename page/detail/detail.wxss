@@ -1,7 +1,6 @@
 /* page/detail/detail.wxss */
 video {
-    width:300px;
-    height:192px;
+    width:700rpx;
     display:inline-block;
     line-height:0;
     overflow:hidden;

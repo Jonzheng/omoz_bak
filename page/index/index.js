@@ -57,7 +57,7 @@ Page({
                     n_list: n_list,
                     m_list: m_list
                 })
-                //console.log(that.data)
+                console.log(that.data)
             }
         })
     },

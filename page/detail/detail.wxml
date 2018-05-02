@@ -1,22 +1,22 @@
 <view class="container">
     <view class="page-head">
-        <view class="page-head-title">一目连_触碰_0</view>
+        <view class="page-head-title">{{title}}</view>
         <view class="page-head-line"></view>
     </view>
 
   <view class="page-body">
 
         <view class="page-section tc">
-            <video id="myVideo" src="{{src_vd}}" show-fullscreen-btn='false' controls></video>
+            <video id="myVideo" src="{{src_vd}}" show-fullscreen-btn='{{myFalse}}' controls></video>
         </view>
 
         <view class="box-serifu">
             <view class="text-pd">
                 <view class="weui-form-preview__item">
-                    <view class="text-serifu">{{current.name}}</view>
+                    <view class="text-serifu">{{serifu}}</view>
                 </view>
                 <view class="weui-form-preview__item">
-                    <view class="text-roma">{{current.author}}</view>
+                    <view class="text-roma">{{roma}}</view>
                 </view>
             </view>
             <view class="box-ori">

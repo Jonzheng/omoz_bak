@@ -1,5 +1,4 @@
-const audioCtx = new AudioContext();
-
+const config = require('../../config')
 const recorderManager = wx.getRecorderManager()
 const options = {
     duration: 10000,
@@ -56,96 +55,41 @@ Page({
         this.videoContext = wx.createVideoContext('myVideo')
     },
     onLoad: function (option) {
-        console.log(option)
+        var that = this
+        //console.log(option)
         this.setData({
-            file_id: option['file_id']
+            file_id: option['file_id'],
+            title: option['title'],
+            serifu: option['serifu'],
+            src_image: option['src_image'],
+            koner: option['koner'],
+            roma: option['roma'],
+        })
+        
+        //查询t_audio
+        wx.request({
+            url: config.service.qAudioUrl,
+            method: 'POST',
+            data: {
+                file_id: option['file_id'],
+            },
+            success: function (res) {
+                var _list = res.data.data
+                //console.log(_list)
+                let ele_audio = ''
+                if (_list.length > 0) ele_audio = _list[0]
+                that.setData({
+                    list_au: _list,
+                    ele_audio
+                })
+            }
         })
     },
 
     load_src: function(e) {
-        var th = this
-        wx.request({
-            url: 'https://omoz-1256378396.cos.ap-guangzhou.myqcloud.com/audio/sr_thy_0_0.MP3',
-            responseType: 'arraybuffer',
-            success: function (audioData) {
-                console.log(audioData)
-                audioCtx.decodeAudioData(audioData.data).then(function (decodedData) {
-                    console.log('====')
-                    console.log(decodedData)
-                    var source = audioCtx.createBufferSource();
-                    var analyser = audioCtx.createAnalyser();
-                    source.buffer = decodedData
-                    source.connect(analyser)
-                    analyser.connect(audioCtx.destination);
-                    
-                    analyser.fftSize = 128;
-                    var bufferLength = analyser.frequencyBinCount;
-                    var dataArray = new Uint8Array(bufferLength);
-                    analyser.getByteFrequencyData(dataArray);
-                    console.log('-----')
-
-                    source.start()
-
-                    var count = 0
-                    var list_o = new Array()
-                    var list_m = new Array()
-                    function _render() {
-                        var that = this
-                        count += 1
-                        if (count == 360){
-                            console.log(list_m)
-                            console.log(list_o)
-                            th.setData({
-                                list_ori: list_o
-                            })
-                            return true
-                        }
-                        analyser.getByteTimeDomainData(dataArray);
-                        //analyser.getByteFrequencyData(dataArray);
-                        var sum = 0
-                        dataArray.forEach(function(v){
-                            sum += v
-                        })
-                        //console.log(Math.abs(2048 - sum))
-                        var h = Math.abs(8192 - sum) / 20
-                        if (h < 2) h = 2
-                        list_o.push(h)
-                        var m = analyser.maxDecibels
-                        list_m.push(m)
-                        setTimeout(function () {
-                            _render.call(that);
-                        }, 20);
-                    }
-                    _render()
-
-
-                    //while (true){
-                    //    
-                    //}
-
-
-                    //function _render() {
-                    //    var that = this
-                    //    count += 1
-                    //    console.log(source)
-                    //    if (count == 20){
-                    //        return true
-                    //    }
-                    //    dataArray = new Uint8Array(bufferLength);
-                    //    analyser.getByteFrequencyData(dataArray);
-                    //    //console.log(dataArray)
-                    //    setTimeout(function () {
-                    //        _render.call(that);
-                    //    }, 200);
-                    //}
-                    //_render()
-                });
-
-            }
-        })
-
-        //innerAudioContext.src = src_sound
-        //innerAudioContext.play()
+        var ele_au = this.data.ele_audio
+        innerAudioContext.src = ele_au.src_path
+        innerAudioContext.play()
     },
 
     data: {
@@ -167,6 +111,7 @@ Page({
         icon_more: "../../image/more.png",
         progress_record: 0,
         hasTmp: false,
+        myFalse: false,
         isRecording: false,
         isPlaying: false,
         tempFile:'',
