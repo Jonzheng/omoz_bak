@@ -13,10 +13,7 @@ var config = {
         qAudioUrl: `${host}/weapp/qAudio`,
         qListUrl: `${host}/weapp/qList`,
         inListUrl: `${host}/weapp/inList`,
-        // 上传图片接口
         upVideoUrl: `${host}/weapp/upVideo`,
-
-        //测试数据库查询
         upAudioUrl: `${host}/weapp/upAudio`
     }
 };

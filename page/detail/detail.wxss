@@ -1,4 +1,4 @@
-/* page/detail/detail.wxss */
+
 video {
     width:700rpx;
     display:inline-block;
@@ -8,13 +8,15 @@ video {
 }
 
 .box-serifu{
+    font-size: 1.1em;
     position:relative;
+    border-bottom: 3rpx #bbb solid;
 }
 
 .text-pd{
     padding:20rpx 30rpx;
-    border-top: 1rpx #ddd solid;
-    border-bottom: 1rpx #ddd solid;
+    border-top: 3rpx #bbb solid;
+    border-bottom: 3rpx #ccc solid;
 }
 
 .text-serifu{
@@ -37,6 +39,7 @@ video {
     margin-left: 8px;
     margin-right: 4px;
 }
+
 .inline{
     display:inline-block;
 }
@@ -100,6 +103,27 @@ video {
     background-color: #F8F8F8;
 }
 
+.btn-ori{
+    margin-left: 10rpx;
+    border-right: 3rpx #ccc solid;
+    width:100rpx;
+    height:100rpx;
+    float: left;
+}
+
+.ele-ori {
+    top:50%;
+    position: relative;
+    transform: translateY(-50%);
+    width: 3rpx;
+    background-color: #ccc;
+    float: left;
+}
+
+.box-ori{
+    height: 100rpx;
+}
+
 .btn-record{
     margin-top: 6px;
     vertical-align: middle;
@@ -128,18 +152,6 @@ video {
     background-color: #ccc;
     float: left;
     box-shadow: 0px 0px 1px 1px #fff;
-}
-.ele-ori {
-    top:50%;
-    position: relative;
-    transform: translateY(-50%);
-    width: 3rpx;
-    background-color: #ccc;
-    float: left;
-}
-
-.box-ori{
-    height: 90rpx;
 }
 
 .play-foo-box{

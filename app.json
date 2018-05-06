@@ -4,10 +4,6 @@
     "page/detail/detail",
     "page/lab/lab",
     "page/mine/mine",
-    "page/b_index/index",
-    "page/b_list/list",
-    "page/b_prepare/prepare",
-    "page/b_audio/audio",
     "page/logs/logs"
   ],
   "window":{

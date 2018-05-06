@@ -20,11 +20,11 @@
                 </view>
             </view>
             <view class="box-ori">
+                <image src="{{icon_play}}" bindtap="load_src" class="btn-ori"></image>
                 <block wx:for="{{list_ori}}" wx:key="mid">
                     <view class="ele-ori" style="height:{{item}}rpx;"></view>
                 </block>
             </view>
-            <button type="default" bindtap="load_src">播放</button>
 
         </view>
 
@@ -48,8 +48,7 @@
                 </view>
 
                 <image wx:if='{{isPlaying}}' src="{{icon_stop}}" bindtap="stopMyVoice" class="btn-record an-breath"></image>
-                <image wx:elif='{{hasTmp}}' src="{{icon_play}}" bindtap="playMyVoice" class="btn-record">
-                </image>
+                <image wx:elif='{{hasTmp}}' src="{{icon_play}}" bindtap="playMyVoice" class="btn-record"></image>
                 <image wx:else src="" class="btn-record"></image>
 
                 <image wx:if="{{isRecording}}" src="{{icon_stop}}" bindtap="stopRecord" class="btn-record btn-center an-breath"></image>
