@@ -7,6 +7,20 @@ video {
     position:relative;
 }
 
+.get-user{
+    position: absolute;
+    margin: 0 0;
+    width:120rpx;
+    height:110rpx;
+    border: 1px red solid;
+    opacity: 0;
+}
+
+.hina{
+    display: ruby-base-container;
+    ruby-position: over;
+}
+
 .box-serifu{
     font-size: 1.1em;
     position:relative;
@@ -21,6 +35,7 @@ video {
 
 .text-serifu{
     color:#444;
+    display: ruby-base;
 }
 
 .text-roma{
@@ -103,25 +118,52 @@ video {
     background-color: #F8F8F8;
 }
 
+.bar-ori{
+    position: absolute;
+    left:110rpx;
+    background-color: #ccc;
+
+    width:3rpx;
+    height:106rpx;
+    opacity: 0.5;
+    z-index: 1px;
+
+    transition: all 0.1s ease-in;
+}
+
+.bar-end{
+    position: absolute;
+    left:746rpx;
+    background-color: black;
+
+    width:3rpx;
+    height:106rpx;
+    opacity: 0.5;
+    z-index: 1px;
+
+    transition: all 8.4s linear;
+}
+
 .btn-ori{
-    margin-left: 10rpx;
+    flex-shrink: 0; /*固定大小*/
     border-right: 3rpx #ccc solid;
-    width:100rpx;
-    height:100rpx;
-    float: left;
+    width:110rpx;
+    height:110rpx;
+    z-index: -1px;
 }
 
 .ele-ori {
-    top:50%;
-    position: relative;
-    transform: translateY(-50%);
-    width: 3rpx;
-    background-color: #ccc;
-    float: left;
+    flex-grow: 1; /*有空间剩余会放大*/
+    width: 6rpx;
+    background-color: #bbb;
+    box-shadow: 0px 0px 1px 1px #fff;
 }
 
 .box-ori{
-    height: 100rpx;
+    height: 110rpx;
+    display:flex; /*无敌布局*/
+    align-items:center; /*中轴对齐*/
+    overflow: hidden;
 }
 
 .btn-record{
@@ -245,6 +287,21 @@ video {
     border-style: solid;
 }
 
+.record-bar{
+    border-radius: 3px;
+    border: 2px solid #999;
+    box-shadow: 0px 0px 2px 2px #ccc;
+
+    width: 0;
+}
+
+.record-bar-end{
+    border-radius: 3px;
+    border: 2px solid #999;
+    box-shadow: 0px 0px 2px 2px #ccc;
+
+
+}
 
 .my-progress-box{
     background: #ddd;

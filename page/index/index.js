@@ -6,9 +6,19 @@ Page({
     tabs: ["全部", "SSR", "SR", "R", "N", "阴阳师"],
     activeIndex: 0,
     sliderOffset: 0,
-    sliderLeft: 0
+    sliderLeft: 0,
+    hina:'この腕\<view class="hina">うで\</view>を切<view class="hina">き</view>られた',
   },
-
+  getUser: function (e) {
+      wx.getUserInfo({
+          success: function (res) {
+              console.log(res)
+          },
+          fail: function (err) {
+              console.log(err)
+          }
+      })
+  },
     onLoad: function () {
         var that = this;
         //初始化tabs
@@ -20,6 +30,44 @@ Page({
                 });
             }
         });
+
+        wx.login({
+            success: function (res) {
+                if (res.code) {
+                    var url = config.loginApi + res.code
+                    console.log(url)
+
+                    wx.request({
+                        url: url,
+                        success: function (res) {
+                            console.log(res)
+                            console.log("===")
+                        }
+                    })
+                } else {
+                    console.log('登录失败！' + res.errMsg)
+                }
+            }
+        });
+
+        // 查看是否授权
+        wx.getSetting({
+            success: function (res) {
+                console.log("--------")
+                console.log(res)
+                if (!res.authSetting['scope.userInfo']) {
+                    wx.authorize({
+                        scope: 'scope.userInfo',
+                        success() {
+                            that.getUser();
+                        }
+                    })
+                }else {
+                    that.getUser();
+                }
+            }
+        })
+
         //查询阴阳师list
         wx.request({
             url: config.service.qListUrl,
@@ -57,10 +105,11 @@ Page({
                     n_list: n_list,
                     m_list: m_list
                 })
-                console.log(that.data)
+                console.log(_list)
             }
         })
     },
+
 
     tabClick: function (e) {
         //console.log(e.currentTarget)

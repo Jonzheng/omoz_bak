@@ -18,7 +18,7 @@
 
                 <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
                     <block wx:for="{{_list}}" wx:key="mid">
-                        <template is="ele-list" data="{{...item}}"/>
+                        <template is="ele-list" data="{{...item,hina}}"/>
                     </block>
                 </view>
 
@@ -58,7 +58,7 @@
 
 <template name="ele-list">
     <view class="weui-panel__bd border-tottom">
-        <navigator url="../detail/detail?file_id={{file_id}}&title={{title}}&serifu={{serifu}}&roma={{roma}}&koner={{koner}}&src_image={{src_image}}"
+        <navigator url="../detail/detail?file_id={{file_id}}&title={{title}}&serifu={{serifu}}&roma={{roma}}&koner={{koner}}&src_image={{src_image}}&src_video={{src_video}}"
         class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                 <image class="weui-media-box__thumb" src="{{src_image}}" />

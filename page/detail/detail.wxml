@@ -7,7 +7,7 @@
   <view class="page-body">
 
         <view class="page-section tc">
-            <video id="myVideo" src="{{src_vd}}" show-fullscreen-btn='{{myFalse}}' controls></video>
+            <video id="myVideo" src="{{src_video}}" show-fullscreen-btn='{{myFalse}}' controls></video>
         </view>
 
         <view class="box-serifu">
@@ -20,9 +20,12 @@
                 </view>
             </view>
             <view class="box-ori">
+                <button hidden="{{loged}}" open-type="getUserInfo" class="get-user" bindgetuserinfo="tologin">卍</button>
+
+                <view class='{{slider}}'></view>
                 <image src="{{icon_play}}" bindtap="load_src" class="btn-ori"></image>
-                <block wx:for="{{list_ori}}" wx:key="mid">
-                    <view class="ele-ori" style="height:{{item}}rpx;"></view>
+                <block wx:for="{{shadow}}" wx:key="mid">
+                    <view class="ele-ori" style="height:{{item}}"></view>
                 </block>
             </view>
 
@@ -40,11 +43,11 @@
         <view class="fixed-bottom">
             <view class="record-box">
                 <view class="my-progress-box">
-                        <view wx:if="{{isRecording}}" class="my-progress" style="animation: totop {{dura}}s linear"></view>
-                        <view wx:else class="my-progress" style="width:{{progress_record}}%"></view>
+                    <view wx:if="{{isRecording}}" class="my-progress" style="animation: totop {{dura}}s linear"></view>
+                    <view wx:else class="my-progress" style="width:{{progress_record}}%;"></view>
 
-                        <view wx:if="{{isPlaying}}" class="my-progress-play" style="width:{{progress_record}}%;animation: totop {{dura+0.3}}s linear"></view>
-                        <view wx:else></view>
+                    <view wx:if="{{isPlaying}}" class="my-progress-play" style="width:{{progress_record}}%;animation: totop {{dura+0.3}}s linear"></view>
+                    <view wx:else></view>
                 </view>
 
                 <image wx:if='{{isPlaying}}' src="{{icon_stop}}" bindtap="stopMyVoice" class="btn-record an-breath"></image>

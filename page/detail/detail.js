@@ -8,13 +8,11 @@ const options = {
     format: 'mp3',
     frameSize: 50
 }
+const dura = options.duration / 1000
 
 const innerAudioContext = wx.createInnerAudioContext()
 innerAudioContext.autoplay = false
 
-innerAudioContext.onPlay(() => {
-    console.log('onPlay')
-})
 
 innerAudioContext.onError((res) => {
     console.log(res.errMsg)
@@ -22,14 +20,12 @@ innerAudioContext.onError((res) => {
 })
 
 
-const src_sound = 'https://omoz-1256378396.cos.ap-guangzhou.myqcloud.com/audio/sr_thy_0_0.MP3'
-
-const downloadTask = wx.downloadFile({
-    url: src_sound,
-    success: function (res) {
-        console.log(res)
-    }
-})
+//const downloadTask = wx.downloadFile({
+//    url: src_sound,
+//    success: function (res) {
+//        console.log(res)
+//    }
+//})
 
 
 function _next() {
@@ -51,49 +47,14 @@ function _next() {
 }
 
 Page({
-    onReady: function (res) {
-        this.videoContext = wx.createVideoContext('myVideo')
-    },
-    onLoad: function (option) {
-        var that = this
-        //console.log(option)
-        this.setData({
-            file_id: option['file_id'],
-            title: option['title'],
-            serifu: option['serifu'],
-            src_image: option['src_image'],
-            koner: option['koner'],
-            roma: option['roma'],
-        })
-        
-        //查询t_audio
-        wx.request({
-            url: config.service.qAudioUrl,
-            method: 'POST',
-            data: {
-                file_id: option['file_id'],
-            },
-            success: function (res) {
-                var _list = res.data.data
-                //console.log(_list)
-                let ele_audio = ''
-                if (_list.length > 0) ele_audio = _list[0]
-                that.setData({
-                    list_au: _list,
-                    ele_audio
-                })
-            }
-        })
-    },
-
-    load_src: function(e) {
-        var ele_au = this.data.ele_audio
-        innerAudioContext.src = ele_au.src_path
-        innerAudioContext.play()
-    },
-
     data: {
-        src_vd: "https://test-1256378396.cos.ap-guangzhou.myqcloud.com/video/sr_br_0_0.MP4",
+        loged:false,
+        slider: 'bar-ori',
+        recordBar: 'record-bar',
+        barWidth: -2,
+        anRecord: '',
+        _style: 'width:0rpx;',
+        canIUse: wx.canIUse('button.open-type.getUserInfo'),
         list_master: [
             { mid: 1, pen: 666, comment: 66, icon_master: "../../image/master1.png", isListen: false },
             { mid: 2, pen: 233, comment: 22, icon_master: "../../image/master2.png", isListen: false },
@@ -101,7 +62,7 @@ Page({
             { mid: 4, pen: 9, comment: 6, icon_master: "../../image/master4.png", isListen: false },
             { mid: 0, pen: 3, comment: 1, icon_master: "../../image/master0.png", isListen: false },
         ],
-        list_ori:[10,12,15],
+        list_ori: [10, 12, 15],
         icon_play: "../../image/play.png",
         icon_stop: "../../image/stop.png",
         icon_upload: "../../image/upload.png",
@@ -114,7 +75,7 @@ Page({
         myFalse: false,
         isRecording: false,
         isPlaying: false,
-        tempFile:'',
+        tempFile: '',
         current: {
             poster: '',
             name: '何か困ったことでも',
@@ -124,6 +85,129 @@ Page({
         audioAction: {
             method: 'pause'
         },
+    },
+
+
+    onReady: function (res) {
+
+        innerAudioContext.onPlay(() => {
+            console.log('onPlay')
+            this.setData({
+                slider: 'bar-end'
+            });
+        });
+
+        innerAudioContext.onEnded(() => {
+            console.log('onEnded')
+            this.setData({
+                slider: 'bar-ori'
+            });
+        });
+
+        //----监听录音------------
+        recorderManager.onStart(() => {
+            console.log('start,dura:' + dura)
+            var anRecord = 'transition: all '+dura+'s linear;'
+            this.setData({
+                isRecording: true,
+                progress_record: 0,
+                dura: dura,
+                barWidth: 0,
+                _style: '',
+                recordBar: 'record-bar-end',
+                anRecord: anRecord,
+                isPlayed: false
+            })
+            _next.call(this);
+        })
+
+        recorderManager.onStop((res) => {
+            console.log(res)
+
+            var barWidth = res.duration / options.duration * 100
+            var anRecord = ''
+            
+            var _style= `width:${barWidth}rpx;`
+            console.log(barWidth)
+            this.setData({
+                tempFile: res,
+                barWidth,
+                recordBar: 'record-bar',
+                _style,
+                anRecord,
+                isRecording: false,
+                hasTmp: true
+            })
+        })
+    },
+
+    setLoged: function(ed){
+        this.setData({
+            loged: ed,
+        })
+    },
+
+    tologin: function (e) {
+        if(e.detail.userInfo){
+            this.setLoged(true)
+            console.log(e.detail.userInfo)
+        }else{
+            this.setLoged(false)
+            console.log(e.detail.userInfo)
+        }
+    },
+    onLoad: function (option) {
+        //页面初始参数
+        var that = this
+        console.log(option)
+        this.setData({
+            file_id: option['file_id'],
+            title: option['title'],
+            serifu: option['serifu'],
+            src_image: option['src_image'],
+            src_video: option['src_video'],
+            koner: option['koner'],
+            roma: option['roma'],
+        })
+        //尝试获取用户信息
+        wx.getUserInfo({
+            success: function (res) {
+                that.setLoged(true)
+                console.log(res)
+            },
+            fail: function (err) {
+                that.setLoged(false)
+                console.log(err)
+            }
+        })
+
+
+        //查询t_audio
+        wx.request({
+            url: config.service.qAudioUrl,
+            method: 'POST',
+            data: {
+                file_id: option['file_id'],
+            },
+            success: function (res) {
+                var _list = res.data.data
+                console.log(_list)
+                let ele_audio = {}
+                if (_list.length > 0) ele_audio = _list[0]
+                var shadow = ele_audio.shadow.split(",").map((item) => { return item + 'rpx' })
+                that.setData({
+                    list_au: _list,
+                    shadow,
+                    ele_audio
+                })
+            }
+        });
+    },
+
+    load_src: function(e) {
+        var ele_au = this.data.ele_audio
+        innerAudioContext.src = ele_au.src_audio
+        innerAudioContext.play()
     },
 
     playFoo: function (e) {
@@ -143,29 +227,11 @@ Page({
             this.stopMyVoice()
         }
         recorderManager.start(options)
-        recorderManager.onStart(() => {
-            console.log('start,dura:' + options.duration / 1000)
-            this.setData({
-                isRecording: true,
-                progress_record: 0,
-                dura: options.duration / 1000,
-                isPlayed: false
-            })
-            _next.call(this);
-        })
-
-        recorderManager.onStop((res) => {
-            console.log(res)
-            this.setData({
-                tempFile: res,
-                isRecording: false,
-                hasTmp: true
-            })
-        })
     },
 
     stopRecord: function (e) {
         console.log('stop r')
+        console.log(recorderManager)
         recorderManager.stop()
         this.setData({
             isRecording: false,

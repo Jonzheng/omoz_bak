@@ -5,6 +5,22 @@
   align-items: center;
 }
 
+.my-ruby{
+    display: ruby-text-container;
+}
+
+.hina{
+    font-size: 0.8em;
+    color:#666;
+
+    display: inline-flex;
+    position: relative;
+    right:20rpx;
+    bottom: 30rpx;
+    width: 0rpx;
+    height: 100rpx;
+}
+
 .userinfo-avatar {
   width: 128rpx;
   height: 128rpx;
