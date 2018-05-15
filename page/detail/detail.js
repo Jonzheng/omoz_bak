@@ -1,4 +1,5 @@
-const config = require('../../config')
+const Conf = require('../../config')
+const App = new getApp()
 const recorderManager = wx.getRecorderManager()
 const options = {
     duration: 10000,
@@ -48,7 +49,7 @@ function _next() {
 
 Page({
     data: {
-        loged:false,
+        loged: false,
         slider: 'bar-ori',
         recordBar: 'record-bar',
         barWidth: -2,
@@ -89,7 +90,6 @@ Page({
 
 
     onReady: function (res) {
-
         innerAudioContext.onPlay(() => {
             console.log('onPlay')
             this.setData({
@@ -141,26 +141,29 @@ Page({
         })
     },
 
-    setLoged: function(ed){
-        this.setData({
-            loged: ed,
-        })
-    },
-
     tologin: function (e) {
         if(e.detail.userInfo){
-            this.setLoged(true)
+            App.globalData.hasLogin = true
+            this.setData({
+                loged: true,
+            })
             console.log(e.detail.userInfo)
         }else{
-            this.setLoged(false)
+            App.globalData.hasLogin = false
+            this.setData({
+                loged: false,
+            })
             console.log(e.detail.userInfo)
         }
     },
+
     onLoad: function (option) {
         //页面初始参数
         var that = this
-        console.log(option)
+        //console.log(option)
+        //console.log(App.globalData.hasLogin)
         this.setData({
+            loged:App.globalData.hasLogin,
             file_id: option['file_id'],
             title: option['title'],
             serifu: option['serifu'],
@@ -169,29 +172,17 @@ Page({
             koner: option['koner'],
             roma: option['roma'],
         })
-        //尝试获取用户信息
-        wx.getUserInfo({
-            success: function (res) {
-                that.setLoged(true)
-                console.log(res)
-            },
-            fail: function (err) {
-                that.setLoged(false)
-                console.log(err)
-            }
-        })
-
 
         //查询t_audio
         wx.request({
-            url: config.service.qAudioUrl,
+            url: Conf.qAudioUrl,
             method: 'POST',
             data: {
                 file_id: option['file_id'],
             },
             success: function (res) {
                 var _list = res.data.data
-                console.log(_list)
+                //console.log(_list)
                 let ele_audio = {}
                 if (_list.length > 0) ele_audio = _list[0]
                 var shadow = ele_audio.shadow.split(",").map((item) => { return item + 'rpx' })

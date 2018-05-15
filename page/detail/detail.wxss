@@ -10,7 +10,7 @@ video {
 .get-user{
     position: absolute;
     margin: 0 0;
-    width:120rpx;
+    width:110rpx;
     height:110rpx;
     border: 1px red solid;
     opacity: 0;
@@ -125,23 +125,23 @@ video {
 
     width:3rpx;
     height:106rpx;
-    opacity: 0.5;
+    opacity: 0.6;
     z-index: 1px;
 
-    transition: all 0.1s ease-in;
+    transition: left 0.3s ease;
 }
 
 .bar-end{
     position: absolute;
     left:746rpx;
-    background-color: black;
+    background-color: #666;
 
-    width:3rpx;
+    width:6rpx;
     height:106rpx;
-    opacity: 0.5;
+    opacity: 0.3;
     z-index: 1px;
 
-    transition: all 8.4s linear;
+    transition: left 8.4s linear;
 }
 
 .btn-ori{

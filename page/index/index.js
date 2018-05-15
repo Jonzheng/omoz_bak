@@ -1,24 +1,32 @@
-const config = require('../../config')
+const Conf = require('../../config')
 var sliderWidth = 48; // 需要设置slider的宽度，用于计算中间位置
-
+const App = new getApp()
 Page({
-  data: {
-    tabs: ["全部", "SSR", "SR", "R", "N", "阴阳师"],
-    activeIndex: 0,
-    sliderOffset: 0,
-    sliderLeft: 0,
-    hina:'この腕\<view class="hina">うで\</view>を切<view class="hina">き</view>られた',
-  },
-  getUser: function (e) {
-      wx.getUserInfo({
-          success: function (res) {
-              console.log(res)
-          },
-          fail: function (err) {
-              console.log(err)
-          }
-      })
-  },
+    data: {
+        tabs: ["全部", "SSR", "SR", "R", "N", "阴阳师"],
+        activeIndex: 0,
+        sliderOffset: 0,
+        sliderLeft: 0,
+        hina:'この腕\<view class="hina">うで\</view>を切<view class="hina">き</view>られた',
+    },
+    //注册到数据库
+    updLogin: (openid)=>{
+        wx.request({
+            url: Conf.updLoginUrl,
+            method: 'POST',
+            data: {
+                openid,
+            },
+            success: function (res) {
+                console.log('updLogin:')
+                console.log(res)
+            },
+            fail: (res)=>{
+                console.log('fail:')
+                console.log(res)
+            }
+        });
+    },
     onLoad: function () {
         var that = this;
         //初始化tabs
@@ -31,17 +39,20 @@ Page({
             }
         });
 
+        //获取用户唯一openid
+        //页面无提示
         wx.login({
             success: function (res) {
+                console.log("login_success")
                 if (res.code) {
-                    var url = config.loginApi + res.code
-                    console.log(url)
-
+                    var url = Conf.loginApi + res.code
                     wx.request({
                         url: url,
                         success: function (res) {
-                            console.log(res)
-                            console.log("===")
+                            console.log("get_openid:")
+                            var openid = res.data.openid
+                            console.log(openid)
+                            that.updLogin(openid)
                         }
                     })
                 } else {
@@ -53,24 +64,28 @@ Page({
         // 查看是否授权
         wx.getSetting({
             success: function (res) {
-                console.log("--------")
+                console.log("getSetting:")
                 console.log(res)
-                if (!res.authSetting['scope.userInfo']) {
-                    wx.authorize({
-                        scope: 'scope.userInfo',
-                        success() {
-                            that.getUser();
-                        }
-                    })
-                }else {
-                    that.getUser();
-                }
+            }
+        })
+
+        //尝试获取用户信息
+        wx.getUserInfo({
+            success: function (res) {
+                console.log("getUserInfo-success")
+                App.globalData.hasLogin = true
+                console.log(res)
+            },
+            fail: function (err) {
+                console.log("getUserInfo-fail")
+                App.globalData.hasLogin = false
+                console.log(err)
             }
         })
 
         //查询阴阳师list
         wx.request({
-            url: config.service.qListUrl,
+            url: Conf.qListUrl,
             method: 'POST',
             data: { cate: 'y' },
             success: function (res) {
@@ -105,7 +120,7 @@ Page({
                     n_list: n_list,
                     m_list: m_list
                 })
-                console.log(_list)
+                //console.log(_list)
             }
         })
     },
