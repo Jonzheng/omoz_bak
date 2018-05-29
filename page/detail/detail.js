@@ -11,14 +11,11 @@ const options = {
 }
 const dura = options.duration / 1000
 
-const innerAudioContext = wx.createInnerAudioContext()
-innerAudioContext.autoplay = false
+const audioContextOri = wx.createInnerAudioContext()
+audioContextOri.autoplay = false
 
-
-innerAudioContext.onError((res) => {
-    console.log(res.errMsg)
-    console.log(res.errCode)
-})
+const audioContextMine = wx.createInnerAudioContext()
+audioContextMine.autoplay = false
 
 
 //const downloadTask = wx.downloadFile({
@@ -54,14 +51,17 @@ Page({
         recordBar: 'record-bar',
         barWidth: -2,
         anRecord: '',
+        oriPlaying: false,
         _style: 'width:0rpx;',
+        isWifi: false,
+        listenStatus: 'listen-off',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         list_master: [
-            { mid: 1, pen: 666, comment: 66, icon_master: "../../image/master1.png", isListen: false },
-            { mid: 2, pen: 233, comment: 22, icon_master: "../../image/master2.png", isListen: false },
-            { mid: 3, pen: 99, comment: 36, icon_master: "../../image/master3.png", isListen: false },
-            { mid: 4, pen: 9, comment: 6, icon_master: "../../image/master4.png", isListen: false },
-            { mid: 0, pen: 3, comment: 1, icon_master: "../../image/master0.png", isListen: false },
+            { mid: 4, pen: 666, icon_master: "../../image/master4.png", isListen: false },
+            { mid: 2, pen: 233, icon_master: "../../image/master2.png", isListen: false },
+            { mid: 0, pen: 99, icon_master: "../../image/master0.png", isListen: false },
+            { mid: 1, pen: 9, icon_master: "../../image/master1.png", isListen: false },
+            { mid: 3, pen: 3, icon_master: "../../image/master3.png", isListen: false },
         ],
         list_ori: [10, 12, 15],
         icon_play: "../../image/play.png",
@@ -76,32 +76,32 @@ Page({
         myFalse: false,
         isRecording: false,
         isPlaying: false,
-        tempFile: '',
-        current: {
-            poster: '',
-            name: '何か困ったことでも',
-            author: 'na ni ka ko ma tta ko to de mo',
-            src: 'https://test-1256378396.cos.ap-guangzhou.myqcloud.com/sound/ssr_yml_0_0.mp3',
-        },
-        audioAction: {
-            method: 'pause'
-        },
+        tempFile: ''
     },
 
 
     onReady: function (res) {
-        innerAudioContext.onPlay(() => {
-            console.log('onPlay')
+        audioContextOri.onPlay(() => {
             this.setData({
-                slider: 'bar-end'
+                slider: 'bar-end',
+                oriPlaying: true,
             });
         });
 
-        innerAudioContext.onEnded(() => {
-            console.log('onEnded')
-            this.setData({
-                slider: 'bar-ori'
-            });
+        audioContextOri.onEnded(() => {
+            this.setOriStop();
+        });
+
+        audioContextOri.onStop(() => {
+            this.setOriStop();
+        });
+
+        audioContextMine.onEnded(() => {
+            this.setMineStop();
+        });
+
+        audioContextMine.onStop(() => {
+            this.setMineStop();
         });
 
         //----监听录音------------
@@ -141,6 +141,7 @@ Page({
         })
     },
 
+    //弃用
     tologin: function (e) {
         if(e.detail.userInfo){
             App.globalData.hasLogin = true
@@ -155,6 +156,13 @@ Page({
             })
             console.log(e.detail.userInfo)
         }
+    },
+    //卍解-coin-1?
+    unlock: function(){
+        console.log("unlock")
+        this.setData({
+            isWifi:true
+        })
     },
 
     onLoad: function (option) {
@@ -195,11 +203,30 @@ Page({
         });
     },
 
-    load_src: function(e) {
-        var ele_au = this.data.ele_audio
-        innerAudioContext.src = ele_au.src_audio
-        innerAudioContext.play()
+    setOriStop: function(){
+        this.setData({
+            slider: 'bar-ori',
+            oriPlaying: false,
+        });
     },
+
+    setMineStop: function () {
+        this.setData({
+            isPlaying: false,
+            isPlayed: true
+        })
+    },
+
+    playOri: function(e) {
+        var ele_au = this.data.ele_audio
+        audioContextOri.src = ele_au.src_audio
+        audioContextOri.play()
+    },
+
+    stopOri: function (e) {
+        audioContextOri.stop()
+    },    
+
 
     playFoo: function (e) {
         var ch = this.data.list_master
@@ -217,6 +244,7 @@ Page({
         if (this.data.isPlaying) {
             this.stopMyVoice()
         }
+        this.stopOri()
         recorderManager.start(options)
     },
 
@@ -233,27 +261,66 @@ Page({
         if (this.data.isRecording) {
             return false
         }
-        console.log('play r')
         var tempFile = this.data.tempFile
-        console.log(tempFile)
         if (tempFile != undefined) {
-            //innerAudioContext.src = tempFile.tempFilePath
             console.log(tempFile.tempFilePath)
-            innerAudioContext.src = tempFile.tempFilePath
-            innerAudioContext.play()
+            audioContextMine.src = tempFile.tempFilePath
+            audioContextMine.play()
             this.setData({
                 isPlaying: true,
+                recordFile: tempFile.tempFilePath
             })
-            console.log('played')
         }
     },
 
     stopMyVoice: function (e) {
-        console.log('stop voice')
-        innerAudioContext.stop()
+        audioContextMine.stop()
+    },
+
+    listen: function(){
+        var listenStatus = this.data.listenStatus
+        if(listenStatus == 'listen-on'){
+            listenStatus = 'listen-off'
+        }else{
+            listenStatus = 'listen-on'
+        }
+        console.log(listenStatus)
         this.setData({
-            isPlaying: false,
-            isPlayed: true
+            listenStatus: listenStatus
+        }) 
+    },
+
+    uploadRecord: function (e) {
+        var that = this
+        var recordFile = this.data.recordFile
+        console.log(recordFile)
+
+        var mine = { mid: 4, pen: 666, icon_master: "../../image/master4.png", isListen: false }
+        var old_lst = this.data.list_master
+        old_lst.unshift(mine)
+        this.setData({
+            list_master: old_lst
+        })
+        wx.uploadFile({
+            url: Conf.upRecordUrl,
+            filePath: recordFile,
+            name: 'file',
+            formData: {
+                file_id: that.data.file_id,
+            },
+            header: {
+                'content-type': 'multipart/form-data'
+            },
+            success: function (res) {
+                console.log('success')
+                console.log(res)
+                //that.uploadVideo();
+            },
+
+            fail: function (e) {
+                console.log('fail')
+            }
         })
     },
+
 })

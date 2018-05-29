@@ -4,7 +4,179 @@ video {
     display:inline-block;
     line-height:0;
     overflow:hidden;
-    position:relative;
+}
+
+.box-video{
+    display: flex;
+    align-items: center; /*中轴对齐*/
+    justify-content: center;
+    z-index: -1px;
+    overflow: visible;
+}
+
+.warning-black{
+    position: relative;
+    text-transform: uppercase;
+    flex-grow: 0;
+    border: 6rpx double rgba(255,255,255,.25);
+    border-width: 6rpx 0;
+    width:700rpx;
+    height: 360rpx;
+    background: #aaa;
+    text-align: center;
+    overflow: visible;
+}
+
+@keyframes an-slide {
+    0% { background-position: 0%}
+    100% { background-position: 88%}
+}
+
+@keyframes an-slide-alt {
+    0% { background-position: 88%}
+    100% { background-position: 0%}
+}
+
+.fuin-unlock{
+    position: absolute;
+    top:5%;
+    left:-12%;
+    width:220rpx;
+    font-size: 0.9em;
+    font-weight: bold;
+    background-color: #666;
+    border: 8rpx double #fff;
+    border-width: 8rpx 0;
+    transform: rotate(-45deg);
+    color: #eee;
+    letter-spacing: 12rpx;
+}
+
+.fuin-1{
+    position: absolute;
+    top:66%;
+    right:-22%;
+    width:999rpx;
+    font-size: 0.8em;
+    background-color: black;
+    border: 8rpx double #fff;
+    border-width: 8rpx 0;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 7rpx;
+    text-shadow: 0 0 300rpx #eee;
+
+    animation: an-first 0.3s ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes an-first{
+    0% { transform: rotate(0deg);opacity: 0;}
+    30% {opacity: 0;}
+    100% { transform: rotate(10deg);opacity: 1;}
+}
+
+.fuin-2{
+    position: absolute;
+    top:45%;
+    right:-22%;
+    width:999rpx;
+    font-size: 0.8em;
+    background-color: black;
+    border: 8rpx double #fff;
+    border-width: 8rpx 0;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 10rpx;
+    text-shadow: 0 0 300rpx #eee;
+
+    animation: an-second 0.5s ease-in;
+    animation-fill-mode: forwards;
+
+    transform: rotate(-20deg);
+}
+
+@keyframes an-second{
+    0% { opacity: 0;}
+    79% {opacity: 0;}
+    80% {opacity: 1;}
+    90% {opacity: 0.6;}
+    100% {opacity: 1;}
+}
+
+.video-size {
+    padding-top: 60rpx;
+    font-size: 1.5em;
+    font-weight: bold;
+
+    color: #ddd;
+    letter-spacing: 6rpx;
+}
+
+/* 渐变背景,旋转角度45*/
+.spin-1{
+    padding: 0px 6rpx 0px 6rpx;
+    background-image: linear-gradient(
+        -45deg,
+        rgba(255,88,0,1) 25%,
+        #eee 25%,#eee 50%
+        ,rgba(255,88,0,1) 50%,
+        rgba(255,88,0,1) 75%,
+        #eee 75%,#eee
+    );
+    background-size: 160rpx 160rpx;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: an-flow 20s linear infinite;
+}
+
+.spin-2{
+    padding: 0px 6rpx 0px 6rpx;
+    background-image: linear-gradient(
+        -45deg,
+        rgba(255,88,0,1) 25%,
+        #eee 25%,#eee 50%
+        ,rgba(255,88,0,1) 50%,
+        rgba(255,88,0,1) 75%,
+        #eee 75%,#eee
+    );
+    background-size: 160rpx 160rpx;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: an-flow-alt 20s linear infinite;
+}
+
+@keyframes an-flow {
+    0% { background-position: 0%; }
+    100% { background-position: 95%; }
+}
+
+@keyframes an-flow-alt {
+    0% { background-position: 95%; }
+    100% { background-position: 0%; }
+}
+
+.text-kai{
+    display: inline-block;
+    animation: an-kai 10s linear infinite;
+    will-change: transform;
+}
+.text-inline{
+    display: inline-block;
+}
+
+@keyframes an-kai{
+    0%{transform: rotate(0deg)}
+    24.5%{transform: rotate(0deg)}
+    25%{transform: rotate(90deg)}
+    49.5%{transform: rotate(90deg)}
+    50%{transform: rotate(180deg)}
+    74.5%{transform: rotate(180deg)}
+    75%{transform: rotate(270deg)}
+    99.5%{transform: rotate(270deg)}
+    100%{transform: rotate(360deg)}
 }
 
 .get-user{
@@ -22,6 +194,7 @@ video {
 }
 
 .box-serifu{
+    margin-top: 20rpx;
     font-size: 1.1em;
     position:relative;
     border-bottom: 3rpx #bbb solid;
@@ -173,16 +346,32 @@ video {
     height: 52px;
 }
 
+.re-user{
+    display: flex;
+    flex-wrap: wrap;
+    width: 480rpx;
+    height: 105rpx;
+    overflow: hidden;
+}
+
+.re-nickname{
+    flex-shrink: 0;
+    font-size: 0.6em;
+    color: #999;
+    width: 480rpx;
+}
+
 .btn-center{
     margin-left: 20%;
     margin-right: 20%;
 }
 
 .master-record{
-    margin-right: 5px;
+    flex-shrink: 0;
+    margin-right: 8rpx;
     vertical-align: middle;
-    width:26px;
-    height: 26px;
+    width:60rpx;
+    height: 60rpx;
     border-radius: 2px;
     box-shadow: 0px 0px 1px 1px #ddd;
 }
@@ -197,45 +386,87 @@ video {
 }
 
 .play-foo-box{
-    margin-left:6px;
-    width:82px;
+    flex-shrink: 0;
+    margin-left:3px;
+    width:80px;
     height:24px;
 }
 
+.tri {
+    flex-shrink: 0;
+    margin-left:6rpx;
+    position: relative;
+    top:26rpx;
+    width: 16rpx;
+    height: 16rpx;
+    z-index: 2px;
+    background: linear-gradient(to top, #ddd, #ddd) no-repeat, linear-gradient(to right, #ddd, #ddd) no-repeat, linear-gradient(135deg, #fff, #fff 16rpx, hsla(0,0%,100%,0) 16rpx) no-repeat;
+    background-size: 16rpx 1px, 1px 16rpx, 16rpx 16rpx;
+    transform: rotate(-45deg);
+}
+
 .btn-play-box{
-    border: 1px #eee solid; 
+    position: relative;
+    right:10rpx;
+    display: flex;
+    align-items: center;
+    border: 1px #ddd solid; 
     border-radius: 4px;
-    margin-left:6px;
-    width:42px;
-    height:24px;
+    width:360rpx;
+    height:60rpx;
+    z-index: 1px;
 }
 
 .an-breath{
     animation: breath 2s infinite;
 }
 
-.btn-listen{
-    float:left;
-    margin-left: 5px;
+.listen-on{
     background-color: #ccc;
+    margin-left: 0rpx;
+    border-radius: 0px;
+    transition: margin-left,border-radius 2s ease-in;
+}
+
+.listen-off{
+    background-color: #ccc;
+    margin-left: 10rpx;
     border-radius: 2px;
+    transition: margin-left,border-radius 2s ease-in;
+}
+
+.box-paly-btn{
+    width: 66rpx;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.box-record-right{
+    flex:1;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 1;
 }
 
 .btn-one {
     width: 4px;
     height: 4px;
-    margin-top: 10px;
     box-shadow: 0px 0px 1px 1px #eee;
 }
+
 .btn-two {
     width: 5px;
     height: 14px;
-    margin-top:5px;
 }
+
 .btn-three {
     width: 5px;
     height: 22px;
-    margin-top:1px;
 }
 
 @keyframes breath{
@@ -300,7 +531,8 @@ video {
     border: 2px solid #999;
     box-shadow: 0px 0px 2px 2px #ccc;
 
-
+    width: 100%;
+    transition: width 10s linear;
 }
 
 .my-progress-box{

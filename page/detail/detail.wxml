@@ -1,13 +1,34 @@
 <view class="container">
     <view class="page-head">
         <view class="page-head-title">{{title}}</view>
+        <view class="page-head-vsize">视频大小:2.45MB</view>
         <view class="page-head-line"></view>
     </view>
 
   <view class="page-body">
 
-        <view class="page-section tc">
-            <video id="myVideo" src="{{src_video}}" show-fullscreen-btn='{{myFalse}}' controls></video>
+        <view class="page-section box-video">
+            <video wx:if='{{isWifi}}' id="myVideo" src="{{src_video}}" show-fullscreen-btn='{{myFalse}}' controls></video>
+            <view wx:else class='warning-black'>
+
+            <view class='video-size'>
+                <view class=''>2.45MB</view>
+            </view>
+
+            <view class='fuin-unlock' bindtap="unlock">
+                <view class=''>卍解</view>
+            </view>
+
+            <view class='fuin-2'>
+                <view class='spin-2'>卍卍卍卍卍卍卍卍卍卍最強の封印卍卍卍卍卍卍卍卍卍</view>
+            </view>
+
+            <view class='fuin-1'>
+                <view class='spin-1'>keep out  keep out  keep out keep out</view>
+            </view>
+
+
+            </view>
         </view>
 
         <view class="box-serifu">
@@ -23,7 +44,10 @@
                 <button hidden="{{loged}}" open-type="getUserInfo" class="get-user" bindgetuserinfo="tologin">卍</button>
 
                 <view class='{{slider}}'></view>
-                <image src="{{icon_play}}" bindtap="load_src" class="btn-ori"></image>
+
+                <image wx:if="{{oriPlaying}}" src="{{icon_stop}}" bindtap="stopOri" class="btn-ori"></image>
+                <image wx:else src="{{icon_play}}" bindtap="playOri" class="btn-ori"></image>
+                
                 <block wx:for="{{shadow}}" wx:key="mid">
                     <view class="ele-ori" style="height:{{item}}"></view>
                 </block>
@@ -66,22 +90,21 @@
 
 <template name="ele-master">
     <view class="weui-cell">
-        <view class="weui-cell__hd">
+        <view class="re-user weui-cell__hd">
+            <view class="re-nickname">妖借三刀</view>
             <image src="{{icon_master}}" class="master-record"></image>
-        </view>
-        <view class="play-foo-box">
-            <block wx:if="{{isListen}}">
-                <block wx:for="{{[0.1, 0.5, 0.3, 0.2, 0, 0.2, 0.3, 0.4, 0, 0.6, 0.5]}}" >
-                    <view class="play-foo" style="animation: scay 1.5s infinite {{item}}s;"></view>
-                </block>
-            </block>
-            <block wx:else>
-                <view class="btn-play-box an" bindtap="playFoo" data-idx="{{index}}">
-                    <view class="btn-one btn-listen"></view>
-                    <view class="btn-two btn-listen"></view>
-                    <view class="btn-three btn-listen"></view>
+
+            <view class="tri"></view>
+            <view class="btn-play-box">
+                <view class='box-paly-btn' bindtap="listen">
+                    <view class="btn-one listen-off"></view>
+                    <view class="btn-two listen-off"></view>
+                    <view class="btn-three listen-off"></view>
                 </view>
-            </block>
+                <view class='box-record-right'>
+                
+                </view>
+            </view>
         </view>
         <view class="box-right">
             

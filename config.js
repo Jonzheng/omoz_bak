@@ -15,6 +15,7 @@ var Conf = {
     inListUrl: `${host}/weapp/inList`,
     upVideoUrl: `${host}/weapp/upVideo`,
     upAudioUrl: `${host}/weapp/upAudio`,
+    upRecordUrl: `${host}/weapp/upRecord`,
     updLoginUrl: `${host}/weapp/updLogin`,
     loginApi: `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&grant_type=authorization_code&js_code=`
 };

@@ -12,7 +12,7 @@
             <image class='coin an-coin' src='{{icon_coin}}'></image>
         </view>
 
-
+<!--
         <view class='box-pet' bindtap='onclick'>
             <view class='pet an-run'></view>
 

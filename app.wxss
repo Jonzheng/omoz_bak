@@ -45,17 +45,26 @@ form{
 .page-head{
   padding-top: 20rpx;
   padding-bottom: 50rpx;
-  text-align: center;
 }
 .page-head-title{
   display: inline-block;
   padding: 0 40rpx 20rpx 40rpx;
   font-size: 32rpx;
-  color: #BEBEBE;
+  color: #999;
+  width: 40%;
 }
+
+.page-head-vsize{
+  display: inline-block;
+  padding: 0 20rpx 20rpx 20rpx;
+  font-size: 28rpx;
+  color: #999;
+  width: 40%;
+}
+
 .page-head-line{
   margin: 0 auto;
-  width: 280rpx;
+  width: 700rpx;
   height: 2rpx;
   background-color: #D8D8D8;
 }
