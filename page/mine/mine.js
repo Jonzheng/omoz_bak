@@ -1,5 +1,6 @@
 
-const app = getApp()
+const App = getApp()
+
 Page({
 
     data: {
@@ -40,29 +41,17 @@ Page({
         //wx.navigateTo({ url: '../b_index/index' })
     },
 
-    getUserInfo: function () {
-        var that = this
-
-        if (app.globalData.hasLogin === false) {
-            wx.login({
-                success: _getUserInfo
-            })
-        } else {
-            _getUserInfo()
-        }
-
-        function _getUserInfo() {
-            wx.getUserInfo({
-                success: function (res) {
-                    that.setData({
-                        hasUserInfo: true,
-                        userInfo: res.userInfo
-                    })
-                }
+    onLoad: function () {
+        console.log("onLoad")
+        var userInfo = App.globalData.userInfo
+        if(userInfo){
+            this.setData({
+                nickName: userInfo.nickName,
+                avatarUrl: userInfo.avatarUrl
             })
         }
     },
-    onLoad: function () {
-        this.getUserInfo()
+    onReady: function () {
+        console.log("onReady")
     },
 })

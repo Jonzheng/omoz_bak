@@ -12,6 +12,19 @@
             <image class='coin an-coin' src='{{icon_coin}}'></image>
         </view>
 
+    <view class='box-cube'>
+        <view class="cube-wrap">
+            <view class="cube depth">
+                <view class="cube-view front-pane">实验室简介</view>
+                <view class="cube-view back-pane">五十音图</view>
+                <view class="cube-view top-pane">卍</view>
+                <view class="cube-view bottom-pane">卍</view>
+                <view class="cube-view left-pane">卍</view>
+                <view class="cube-view right-pane">卍</view>
+            </view>
+        </view>
+    </view>
+
 <!--
         <view class='box-pet' bindtap='onclick'>
             <view class='pet an-run'></view>

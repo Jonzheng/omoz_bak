@@ -58,7 +58,7 @@
 
 <template name="ele-list">
     <view class="weui-panel__bd border-tottom">
-        <navigator url="../detail/detail?file_id={{file_id}}&title={{title}}&serifu={{serifu}}&roma={{roma}}&koner={{koner}}&src_image={{src_image}}&src_video={{src_video}}"
+        <navigator url="../detail/detail?file_id={{file_id}}"
         class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                 <image class="weui-media-box__thumb" src="{{src_image}}" />

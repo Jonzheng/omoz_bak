@@ -10,15 +10,18 @@ Page({
         hina:'この腕\<view class="hina">うで\</view>を切<view class="hina">き</view>られた',
     },
     //注册到数据库
-    updLogin: (openid)=>{
+    updateLogin: (openid)=>{
+        var avatarUrl
+        if (App.globalData.userInfo) avatarUrl = App.globalData.userInfo.avatarUrl
         wx.request({
-            url: Conf.updLoginUrl,
+            url: Conf.updateLoginUrl,
             method: 'POST',
             data: {
                 openid,
+                avatarUrl,
             },
             success: function (res) {
-                console.log('updLogin:')
+                console.log('updateLogin:')
                 console.log(res)
             },
             fail: (res)=>{
@@ -27,7 +30,9 @@ Page({
             }
         });
     },
+
     onLoad: function () {
+        console.log("onLoad")
         var that = this;
         //初始化tabs
         wx.getSystemInfo({
@@ -38,6 +43,14 @@ Page({
                 });
             }
         });
+
+        // 查看是否授权
+        wx.getSetting({
+            success: function (res) {
+                console.log("getSetting:")
+                console.log(res)
+            }
+        })
 
         //获取用户唯一openid
         //页面无提示
@@ -51,8 +64,27 @@ Page({
                         success: function (res) {
                             console.log("get_openid:")
                             var openid = res.data.openid
+                            App.globalData.openid = openid
                             console.log(openid)
-                            that.updLogin(openid)
+
+                            //尝试获取用户信息
+                            wx.getUserInfo({
+                                success: function (res) {
+                                    console.log("getUserInfo-success")
+                                    App.globalData.hasLogin = true
+                                    console.log(res)
+                                    var userInfo = res.userInfo
+                                    App.globalData.userInfo = userInfo
+                                },
+                                fail: function (err) {
+                                    console.log("getUserInfo-fail")
+                                    App.globalData.hasLogin = false
+                                    console.log(err)
+                                },
+                                complete: function(){
+                                    that.updateLogin(openid)
+                                }
+                            })
                         }
                     })
                 } else {
@@ -60,28 +92,6 @@ Page({
                 }
             }
         });
-
-        // 查看是否授权
-        wx.getSetting({
-            success: function (res) {
-                console.log("getSetting:")
-                console.log(res)
-            }
-        })
-
-        //尝试获取用户信息
-        wx.getUserInfo({
-            success: function (res) {
-                console.log("getUserInfo-success")
-                App.globalData.hasLogin = true
-                console.log(res)
-            },
-            fail: function (err) {
-                console.log("getUserInfo-fail")
-                App.globalData.hasLogin = false
-                console.log(err)
-            }
-        })
 
         //查询阴阳师list
         wx.request({
@@ -124,7 +134,9 @@ Page({
             }
         })
     },
-
+    onReady: function () {
+        console.log("onReady")
+    },
 
     tabClick: function (e) {
         //console.log(e.currentTarget)

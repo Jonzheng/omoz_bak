@@ -12,11 +12,14 @@ var Conf = {
     host,
     qAudioUrl: `${host}/weapp/qAudio`,
     qListUrl: `${host}/weapp/qList`,
+    queryDetailUrl: `${host}/weapp/queryDetail`,
     inListUrl: `${host}/weapp/inList`,
     upVideoUrl: `${host}/weapp/upVideo`,
     upAudioUrl: `${host}/weapp/upAudio`,
-    upRecordUrl: `${host}/weapp/upRecord`,
-    updLoginUrl: `${host}/weapp/updLogin`,
+    uploadRecordUrl: `${host}/weapp/uploadRecord`,
+    updateLoginUrl: `${host}/weapp/updateLogin`,
+    updateUserUrl: `${host}/weapp/updateUser`,
+    updateRecordUrl: `${host}/weapp/updateRecord`,
     loginApi: `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&grant_type=authorization_code&js_code=`
 };
 

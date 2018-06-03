@@ -14,10 +14,13 @@ const dura = options.duration / 1000
 const audioContextOri = wx.createInnerAudioContext()
 audioContextOri.autoplay = false
 
+const audioContextMaster = wx.createInnerAudioContext()
+audioContextMaster.autoplay = false
+
 const audioContextMine = wx.createInnerAudioContext()
 audioContextMine.autoplay = false
 
-
+const load_list = [0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9, 2.1, 2.3, 2.5, 2.7, 2.9, 3.1, 3.3, 3.5, 3.7, 3.9, 4.1, 4.3]
 //const downloadTask = wx.downloadFile({
 //    url: src_sound,
 //    success: function (res) {
@@ -54,16 +57,9 @@ Page({
         oriPlaying: false,
         _style: 'width:0rpx;',
         isWifi: false,
-        listenStatus: 'listen-off',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        list_master: [
-            { mid: 4, pen: 666, icon_master: "../../image/master4.png", isListen: false },
-            { mid: 2, pen: 233, icon_master: "../../image/master2.png", isListen: false },
-            { mid: 0, pen: 99, icon_master: "../../image/master0.png", isListen: false },
-            { mid: 1, pen: 9, icon_master: "../../image/master1.png", isListen: false },
-            { mid: 3, pen: 3, icon_master: "../../image/master3.png", isListen: false },
-        ],
-        list_ori: [10, 12, 15],
+        list_master:[],
+        record_map:{},
         icon_play: "../../image/play.png",
         icon_stop: "../../image/stop.png",
         icon_upload: "../../image/upload.png",
@@ -79,8 +75,9 @@ Page({
         tempFile: ''
     },
 
-
     onReady: function (res) {
+        this.videoContext = wx.createVideoContext('myVideo')
+
         audioContextOri.onPlay(() => {
             this.setData({
                 slider: 'bar-end',
@@ -94,6 +91,10 @@ Page({
 
         audioContextOri.onStop(() => {
             this.setOriStop();
+        });
+
+        audioContextMaster.onEnded(() => {
+            this.setMasterStop();
         });
 
         audioContextMine.onEnded(() => {
@@ -141,20 +142,29 @@ Page({
         })
     },
 
-    //弃用
-    tologin: function (e) {
-        if(e.detail.userInfo){
+    toLogin: function (e) {
+        var that = this
+        var userInfo = e.detail.userInfo
+        console.log("toLogin:")
+        if(userInfo){
             App.globalData.hasLogin = true
+            App.globalData.userInfo = userInfo
+            App.globalData.nickName = userInfo.nickName
+            App.globalData.avatarUrl = userInfo.avatarUrl
+            var gender = 1
+            if (userInfo.gender != "" || userInfo.gender != undefined) gender = userInfo.gender
+            App.globalData.gender = gender
             this.setData({
                 loged: true,
             })
-            console.log(e.detail.userInfo)
+            console.log(userInfo)
+            that.updateUser(userInfo)
         }else{
             App.globalData.hasLogin = false
             this.setData({
                 loged: false,
             })
-            console.log(e.detail.userInfo)
+            console.log(userInfo)
         }
     },
     //卍解-coin-1?
@@ -164,43 +174,96 @@ Page({
             isWifi:true
         })
     },
+    //更新用户到数据库
+    updateUser: (userInfo) => {
+        var openid = App.globalData.openid
+        var nickName = App.globalData.nickName
+        var avatarUrl = App.globalData.avatarUrl
+        var gender = App.globalData.gender
+        wx.request({
+            url: Conf.updateUserUrl,
+            method: 'POST',
+            data: {
+                openid,
+                nickName,
+                avatarUrl,
+                gender,
+            },
+            success: function (res) {
+                console.log('updateUser:')
+                console.log(res)
+            },
+            fail: (res) => {
+                console.log('fail:')
+                console.log(res)
+            }
+        });
+    },
+
+    initPageData: function (file_id) {
+        var that = this
+        //查询阴阳师list
+        wx.request({
+            url: Conf.queryDetailUrl,
+            method: 'POST',
+            data: { cate: 'y', file_id: file_id },
+            success: function (res) {
+                console.log("initPageData:")
+                var list_element = res.data.data.list_result[0]
+                var audio_element = res.data.data.audio_result[0]
+                var record_result = res.data.data.record_result
+                console.log(record_result)
+                for (let record of record_result) {
+                    record["listenStatus"] = "listen-off"
+                    record["boxStyle"] = "btn-play-box"
+                    record["btnDelStyle"] = "btn-red-hidden"
+                    record["btnPoiStyle"] = "btn-red-hidden"
+                    record["isListen"] = false
+                }
+                var shadow = audio_element.shadow.split(",").map((item) => { return item + 'rpx' })
+                var video_size = list_element.video_size / 1048576
+                that.setData({
+                    list_element,
+                    audio_element,
+                    list_master:record_result,
+                    video_size: video_size.toFixed(2),
+                    shadow
+                })
+                //console.log(list_element)
+                //console.log(audio_element)
+                //console.log(shadow)
+            }
+        })
+    },
 
     onLoad: function (option) {
         //页面初始参数
         var that = this
         //console.log(option)
         //console.log(App.globalData.hasLogin)
+        var file_id = option['file_id']
+        this.initPageData(file_id)
         this.setData({
+            file_id,
             loged:App.globalData.hasLogin,
-            file_id: option['file_id'],
-            title: option['title'],
-            serifu: option['serifu'],
-            src_image: option['src_image'],
-            src_video: option['src_video'],
-            koner: option['koner'],
-            roma: option['roma'],
         })
+    },
 
-        //查询t_audio
-        wx.request({
-            url: Conf.qAudioUrl,
-            method: 'POST',
-            data: {
-                file_id: option['file_id'],
-            },
-            success: function (res) {
-                var _list = res.data.data
-                //console.log(_list)
-                let ele_audio = {}
-                if (_list.length > 0) ele_audio = _list[0]
-                var shadow = ele_audio.shadow.split(",").map((item) => { return item + 'rpx' })
-                that.setData({
-                    list_au: _list,
-                    shadow,
-                    ele_audio
-                })
-            }
-        });
+    videoWaiting: function () {
+        var that = this
+        console.log("waiting...")
+        that.videoContext.pause()
+        that.setData({ videoWait: false })
+        setTimeout(function () {
+            that.videoContext.play()
+            that.setData({ videoWait: false })
+        },2000)
+    },
+    videoPlay: function () {
+        console.log("Play...")
+        if (this.data.videoWait){
+            this.videoContext.pause()
+        }
     },
 
     setOriStop: function(){
@@ -208,6 +271,22 @@ Page({
             slider: 'bar-ori',
             oriPlaying: false,
         });
+    },
+
+    setMasterStop: function () {
+        var index = this.data.listenIndex
+        //console.log("setMasterStop:", index)
+        var list_master = this.data.list_master
+        if (index != null && list_master[index]["isListen"]) {
+            list_master[index]["isListen"] = false
+            list_master[index]["listenStatus"] = "listen-off"
+            list_master[index]["anListen"] = ""
+            audioContextMaster.stop()
+            this.setData({
+                list_master,
+                listenIndex:null
+            }) 
+        }
     },
 
     setMineStop: function () {
@@ -218,16 +297,48 @@ Page({
     },
 
     playOri: function(e) {
-        var ele_au = this.data.ele_audio
-        audioContextOri.src = ele_au.src_audio
+        var audio_element = this.data.audio_element
+        audioContextOri.src = audio_element.src_audio
         audioContextOri.play()
     },
 
     stopOri: function (e) {
         audioContextOri.stop()
-    },    
+    },
 
+    showMore: function(e){
+        var that = this
+        var currData = e.currentTarget.dataset
+        var index = currData.idx
+        var list_master = this.data.list_master
+        var master_id = list_master[index]["master_id"]
+        var isSelf = false
+        if (master_id == App.globalData.openid) isSelf = true
+        //console.log(isSelf)
+        //console.log(list_master[index])
+        if (list_master[index]["btnRt"] == "rt-90"){
+            list_master[index]["boxStyle"] = "btn-play-box"
+            list_master[index]["btnRt"] = ""
+            if(isSelf){
+                list_master[index]["btnDelStyle"] = "btn-red-hidden"
+            }else{
+                list_master[index]["btnPoiStyle"] = "btn-red-hidden"
+            }
+        }else{
+            list_master[index]["boxStyle"] = "btn-play-box-sm"
+            list_master[index]["btnRt"] = "rt-90"
+            if (isSelf) {
+                list_master[index]["btnDelStyle"] = "btn-red"
+            } else {
+                list_master[index]["btnPoiStyle"] = "btn-red"
+            }
+        }
+        that.setData({
+            list_master
+        }) 
+    },
 
+    //弃用
     playFoo: function (e) {
         var ch = this.data.list_master
         var dataset = e.currentTarget["dataset"]
@@ -238,8 +349,8 @@ Page({
         })
         console.log(ch[idx])
     },
-    //录音
 
+    //录音
     startRecord: function (e) {
         if (this.data.isPlaying) {
             this.stopMyVoice()
@@ -277,44 +388,133 @@ Page({
         audioContextMine.stop()
     },
 
-    listen: function(){
-        var listenStatus = this.data.listenStatus
-        if(listenStatus == 'listen-on'){
-            listenStatus = 'listen-off'
+    delMine: function (record_id){
+        wx.request({
+            url: Conf.updateRecordUrl,
+            method: 'POST',
+            data: {
+                record_id,
+                status:0
+            },
+            success: function (res) {
+                console.log('updateRecord:')
+                console.log(res)
+            },
+            fail: (res) => {
+                console.log('updateRecord.fail:')
+                console.log(res)
+            }
+        });
+    },
+
+    delConfirm: function (e) {
+        var that = this
+        var currData = e.currentTarget.dataset
+        var record_id = currData.record_id
+        var index = currData.idx
+        wx.showModal({
+            title: '删除?',
+            content: '触发不可逆操作,请做出最后的判断',
+            confirmText: "删除",
+            cancelText: "取消",
+            success: function (res) {
+                //console.log(res);
+                if (res.confirm) {
+                    var list_master = that.data.list_master
+                    list_master.splice(index, 1)
+                    that.setData({list_master})
+                    that.delMine(record_id)
+                } else {
+                    //console.log('用户点击辅助操作')
+                }
+            }
+        });
+    },
+
+    listen: function(e){
+        var that = this
+        var currData = e.currentTarget.dataset
+        var record_id = currData.record_id
+        var index = currData.idx
+        var list_master = this.data.list_master
+        var src_record = list_master[index]["src_record"]
+        if (!src_record) return
+        if (list_master[index]["isListen"]){
+            list_master[index]["isListen"] = false
+            list_master[index]["listenStatus"] = "listen-off"
+            list_master[index]["anListen"] = ""
+            audioContextMaster.stop()
         }else{
-            listenStatus = 'listen-on'
+            that.setMasterStop()
+            list_master[index]["isListen"] = true
+            list_master[index]["listenStatus"] = "listen-on"
+            list_master[index]["anListen"] = "an-listen-on"
+            console.log(index,src_record)
+            audioContextMaster.src = src_record
+            that.setData({
+                listenIndex: index
+            })
+            audioContextMaster.play()
         }
-        console.log(listenStatus)
         this.setData({
-            listenStatus: listenStatus
+            list_master
         }) 
     },
 
     uploadRecord: function (e) {
         var that = this
         var recordFile = this.data.recordFile
+        console.log("recordFile:")
         console.log(recordFile)
+        console.log("App.globalData.userInfo:")
 
-        var mine = { mid: 4, pen: 666, icon_master: "../../image/master4.png", isListen: false }
+        var openid = App.globalData.openid
+        var file_id = this.data.file_id
+        var userInfo = App.globalData.userInfo
+        var nickName
+        var avatarUrl
+        if (userInfo){
+            nickName = userInfo.nickName
+            avatarUrl = userInfo.avatarUrl
+        }
+        console.log(userInfo)
+        console.log("data:")
+        console.log(this.data)
+
+        var mine = {
+                heart: 1,
+                nick_name: nickName,
+                avatar_url: avatarUrl,
+                listenStatus: "listen-off",
+                isLoading: load_list
+            }
         var old_lst = this.data.list_master
         old_lst.unshift(mine)
         this.setData({
             list_master: old_lst
         })
         wx.uploadFile({
-            url: Conf.upRecordUrl,
+            url: Conf.uploadRecordUrl,
             filePath: recordFile,
             name: 'file',
             formData: {
-                file_id: that.data.file_id,
+                file_id: file_id,
+                openid: openid,
             },
             header: {
                 'content-type': 'multipart/form-data'
             },
             success: function (res) {
                 console.log('success')
-                console.log(res)
-                //that.uploadVideo();
+                var jsonData = JSON.parse(res.data)
+                var src_record = jsonData.data.src_record
+                var list_master = that.data.list_master
+                list_master[0]["isLoading"] = []
+                list_master[0]["src_record"] = src_record
+                that.setData({
+                    list_master
+                })
+                console.log(list_master[0])
             },
 
             fail: function (e) {

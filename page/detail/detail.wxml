@@ -1,18 +1,22 @@
 <view class="container">
     <view class="page-head">
-        <view class="page-head-title">{{title}}</view>
-        <view class="page-head-vsize">视频大小:2.45MB</view>
+        <view class="page-head-title">{{list_element.title}}</view>
+        <view class="page-head-vsize">视频大小:{{video_size}}MB</view>
         <view class="page-head-line"></view>
     </view>
 
   <view class="page-body">
 
         <view class="page-section box-video">
-            <video wx:if='{{isWifi}}' id="myVideo" src="{{src_video}}" show-fullscreen-btn='{{myFalse}}' controls></video>
+            <video wx:if='{{isWifi}}' id="myVideo" src="{{list_element.src_video}}"
+            show-fullscreen-btn='{{myFalse}}'
+            show-center-play-btn='{{myFalse}}'
+            bindwaiting="videoWaiting" bindplay="videoPlay"
+            controls></video>
             <view wx:else class='warning-black'>
 
             <view class='video-size'>
-                <view class=''>2.45MB</view>
+                <view class=''>{{video_size}}MB</view>
             </view>
 
             <view class='fuin-unlock' bindtap="unlock">
@@ -24,7 +28,8 @@
             </view>
 
             <view class='fuin-1'>
-                <view class='spin-1'>keep out  keep out  keep out keep out</view>
+                <!--<view class='spin-1'>keep out  keep out  keep out keep out</view> -->
+                <view class='spin-1'>立入禁止 立入禁止 立入禁止 立入禁止 立入禁止 立入禁止</view>
             </view>
 
 
@@ -34,21 +39,21 @@
         <view class="box-serifu">
             <view class="text-pd">
                 <view class="weui-form-preview__item">
-                    <view class="text-serifu">{{serifu}}</view>
+                    <view class="text-serifu">{{list_element.serifu}}</view>
                 </view>
                 <view class="weui-form-preview__item">
-                    <view class="text-roma">{{roma}}</view>
+                    <view class="text-roma">{{list_element.roma}}</view>
                 </view>
             </view>
             <view class="box-ori">
-                <button hidden="{{loged}}" open-type="getUserInfo" class="get-user" bindgetuserinfo="tologin">卍</button>
+                <button hidden="{{loged}}" open-type="getUserInfo" class="get-user" bindgetuserinfo="toLogin">卍</button>
 
                 <view class='{{slider}}'></view>
 
                 <image wx:if="{{oriPlaying}}" src="{{icon_stop}}" bindtap="stopOri" class="btn-ori"></image>
                 <image wx:else src="{{icon_play}}" bindtap="playOri" class="btn-ori"></image>
                 
-                <block wx:for="{{shadow}}" wx:key="mid">
+                <block wx:for="{{shadow}}" wx:key="mkey">
                     <view class="ele-ori" style="height:{{item}}"></view>
                 </block>
             </view>
@@ -58,14 +63,15 @@
     <view class="weui-cells__title">录音:</view>
         <view class="weui-cells record-list">
 
-            <block wx:for="{{list_master}}" wx:key="mid">
-                <template is="ele-master" data="{{...item,index,icon_like,icon_comment,icon_more}}"/>
+            <block wx:for="{{list_master}}" wx:key="mkey">
+                <template is="ele-master" data="{{...item,index,icon_like,icon_more}}"/>
             </block>
 
         </view>
 
         <view class="fixed-bottom">
             <view class="record-box">
+            <button hidden="{{loged}}" open-type="getUserInfo" class="get-user" bindgetuserinfo="toLogin">卍</button>
                 <view class="my-progress-box">
                     <view wx:if="{{isRecording}}" class="my-progress" style="animation: totop {{dura}}s linear"></view>
                     <view wx:else class="my-progress" style="width:{{progress_record}}%;"></view>
@@ -89,44 +95,35 @@
 </view>
 
 <template name="ele-master">
-    <view class="weui-cell">
+    <view class="weui-cell an-fade-in">
         <view class="re-user weui-cell__hd">
-            <view class="re-nickname">妖借三刀</view>
-            <image src="{{icon_master}}" class="master-record"></image>
+            <view class="re-nickname">{{nick_name}}</view>
+            <image src="{{avatar_url}}" class="master-record"></image>
 
             <view class="tri"></view>
-            <view class="btn-play-box">
-                <view class='box-paly-btn' bindtap="listen">
-                    <view class="btn-one listen-off"></view>
-                    <view class="btn-two listen-off"></view>
-                    <view class="btn-three listen-off"></view>
+            <view class="{{boxStyle}} {{anListen}}" data-idx="{{index}}"
+                bindtap="listen" data-nickName="{{nick_name}}" data-record_id="{{record_id}}">
+                <view class='box-paly-btn'>
+                    <view hidden="{{isListen}}" class="btn-one"></view>
+                    <view class="btn-two {{listenStatus}}"></view>
+                    <view hidden="{{isListen}}" class="btn-three"></view>
                 </view>
                 <view class='box-record-right'>
-                
+                    <block wx:for="{{isLoading}}" wx:key="mkey">
+                        <view class="play-foo" style="animation: scay 2s infinite {{item}}s;"></view>
+                    </block>
                 </view>
             </view>
+            <view class="{{btnDelStyle}}" bindtap='delConfirm'
+            data-idx="{{index}}" data-record_id="{{record_id}}" >删除</view>
+
+            <view class="{{btnPoiStyle}}"
+            data-idx="{{index}}" data-record_id="{{record_id}}" >有毒</view>
         </view>
         <view class="box-right">
-            
-            <view class="inline pd-bottom">({{pen}})</view>
-            <image src="{{icon_like}}" class="sm-icon inline"></image>
-            <!--
-            <image src="{{icon_comment}}" class="sm-icon inline"></image>
-            <view class="inline pd-bottom">评论({{comment}})</view>
-            -->
-            <image src="{{icon_more}}" class="sm-icon inline"></image>
+            <view class="text-heart">({{heart}})</view>
+            <image src="{{icon_like}}" class="sm-icon"></image>
+            <image src="{{icon_more}}" class="sm-icon {{btnRt}}" bindtap='showMore' data-idx="{{index}}"></image>
         </view>
     </view>
-    <!--
-    <view class="box-comment">
-        <view class="box-comment-ele">
-            <image src="{{icon_master}}" class="master-record"></image>
-            <view class='font-comment'>无敌</view>
-        </view>
-        <view class="box-comment-ele">
-            <image src="../../image/master4.png" class="master-record"></image>
-            <view class='font-comment'>i thk ok</view>
-        </view>
-    </view>
-    -->
 </template>

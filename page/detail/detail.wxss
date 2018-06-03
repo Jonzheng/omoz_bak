@@ -161,8 +161,8 @@ video {
 .text-kai{
     display: inline-block;
     animation: an-kai 10s linear infinite;
-    will-change: transform;
 }
+
 .text-inline{
     display: inline-block;
 }
@@ -182,7 +182,7 @@ video {
 .get-user{
     position: absolute;
     margin: 0 0;
-    width:110rpx;
+    width:100%;
     height:110rpx;
     border: 1px red solid;
     opacity: 0;
@@ -226,26 +226,40 @@ video {
     height:24px;
     margin-left: 8px;
     margin-right: 4px;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease-in;
+}
+
+.rt-90{
+    transform: rotate(270deg);
+    transition: transform 0.3s ease-in;
 }
 
 .inline{
     display:inline-block;
 }
+
 .mn-left{
     margin-left: 8px;
     margin-right: 4px;
 }
+
 .pd-bottom{
-    position: relative;
     bottom: 6px;
 }
 
 .box-right{
-    position: absolute;
-    right:6px;
-    text-align: right;
-    height: 26px;
-    color:#bbb;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 248rpx;
+    height: 105rpx;
+    overflow: hidden;
+}
+
+.text-heart{
+    color: #bbb;
 }
 
 .box-comment{
@@ -349,6 +363,7 @@ video {
 .re-user{
     display: flex;
     flex-wrap: wrap;
+    flex-shrink: 0;
     width: 480rpx;
     height: 105rpx;
     overflow: hidden;
@@ -377,11 +392,10 @@ video {
 }
 
 .play-foo {
-    width: 1px;
-    margin-left: 6px;
-    height: 20px;
+    width: 6rpx;
+    margin-left: 8rpx;
+    height: 50rpx;
     background-color: #ccc;
-    float: left;
     box-shadow: 0px 0px 1px 1px #fff;
 }
 
@@ -410,11 +424,59 @@ video {
     right:10rpx;
     display: flex;
     align-items: center;
+    justify-content: center;
     border: 1px #ddd solid; 
     border-radius: 4px;
     width:360rpx;
     height:60rpx;
     z-index: 1px;
+    transition: width 0.2s ease-in;
+}
+
+.btn-play-box-sm{
+    position: relative;
+    right:10rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px #ddd solid; 
+    border-radius: 4px;
+    width:100rpx;
+    height:60rpx;
+    z-index: 1px;
+    transition: width 0.2s ease-out;
+}
+
+.btn-red{
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    color: #a94442;
+    font-size: 0.8em;
+    letter-spacing: 3rpx;
+    border: 1px #f2dede solid;
+    border-radius: 4px;
+    width:100rpx;
+    height:60rpx;
+    z-index: 1px;
+    opacity: 1;
+    transition: all 0.5s;
+}
+
+.btn-red-hidden{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a94442;
+    font-size: 0em;
+    border: 1px #f2dede solid;
+    border-radius: 4px;
+    width:1rpx;
+    height:60rpx;
+    z-index: 1px;
+    opacity: 0;
+    transition: all 0.1s;
 }
 
 .an-breath{
@@ -423,16 +485,16 @@ video {
 
 .listen-on{
     background-color: #ccc;
-    margin-left: 0rpx;
-    border-radius: 0px;
-    transition: margin-left,border-radius 2s ease-in;
+    width: 28rpx;
+    border-radius: 2px;
+    transition: width 0.1s ease-in;
 }
 
 .listen-off{
     background-color: #ccc;
-    margin-left: 10rpx;
+    width: 10rpx;
     border-radius: 2px;
-    transition: margin-left,border-radius 2s ease-in;
+    transition: width 0.1s ease-in;
 }
 
 .box-paly-btn{
@@ -454,19 +516,32 @@ video {
 }
 
 .btn-one {
-    width: 4px;
-    height: 4px;
+    width: 8rpx;
+    height: 8rpx;
+    margin-right: 6rpx;
+    background-color: #ccc;
+    border-radius: 2px;
     box-shadow: 0px 0px 1px 1px #eee;
 }
 
 .btn-two {
-    width: 5px;
-    height: 14px;
+    height: 28rpx;
 }
 
 .btn-three {
-    width: 5px;
-    height: 22px;
+    width: 10rpx;
+    height: 44rpx;
+    margin-left: 6rpx;
+    background-color: #ccc;
+    border-radius: 2px;
+}
+
+.an-listen-on{
+    animation: an-shad 3s linear infinite;
+}
+
+@keyframes an-shad{
+    50%{box-shadow: 0 0 10px rgba(0, 0, 255, 0.3) inset;}
 }
 
 @keyframes breath{
