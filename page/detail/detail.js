@@ -28,6 +28,8 @@ const load_list = [0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9, 2.1, 2.3, 2.5, 2.7, 2
 //    }
 //})
 
+const src_heart = "../../image/heart.png"
+const src_heart_full = "../../image/heart_full.png"
 
 function _next() {
     var that = this;
@@ -64,7 +66,6 @@ Page({
         icon_stop: "../../image/stop.png",
         icon_upload: "../../image/upload.png",
         icon_record: "../../image/record.png",
-        icon_like: "../../image/like.png",
         icon_comment: "../../image/comment.png",
         icon_more: "../../image/more.png",
         progress_record: 0,
@@ -202,22 +203,37 @@ Page({
 
     initPageData: function (file_id) {
         var that = this
+        var openid = App.globalData.openid
+        var user_id = openid
         //查询阴阳师list
         wx.request({
             url: Conf.queryDetailUrl,
             method: 'POST',
-            data: { cate: 'y', file_id: file_id },
+            data: { cate: 'y', file_id, user_id},
             success: function (res) {
                 console.log("initPageData:")
                 var list_element = res.data.data.list_result[0]
                 var audio_element = res.data.data.audio_result[0]
                 var record_result = res.data.data.record_result
-                console.log(record_result)
+                var heart_result = res.data.data.heart_result
+                var heartRecord = []
+                for (let result of heart_result) {
+                    heartRecord.push(result.record_id)
+                }
+                console.log(heart_result)
                 for (let record of record_result) {
                     record["listenStatus"] = "listen-off"
                     record["boxStyle"] = "btn-play-box"
                     record["btnDelStyle"] = "btn-red-hidden"
                     record["btnPoiStyle"] = "btn-red-hidden"
+                    if (heartRecord.includes(record.record_id)){
+                        record["heartShape"] = src_heart_full
+                        record["heartStatus"] = 1
+                    }else{
+                        record["heartShape"] = src_heart
+                        record["heartStatus"] = 0
+                    }
+                    
                     record["isListen"] = false
                 }
                 var shadow = audio_element.shadow.split(",").map((item) => { return item + 'rpx' })
@@ -414,8 +430,8 @@ Page({
         var index = currData.idx
         wx.showModal({
             title: '删除?',
-            content: '触发不可逆操作,请做出最后的判断',
-            confirmText: "删除",
+            content: '不可逆操作,最后的判断',
+            confirmText: "确认",
             cancelText: "取消",
             success: function (res) {
                 //console.log(res);
@@ -461,6 +477,74 @@ Page({
         }) 
     },
 
+    //--点心--
+    updateHeart: function(e){
+        var that = this
+        var currData = e.currentTarget.dataset
+        var status = currData.status
+        if (status == 1) return
+        var index = currData.idx
+        var list_master = this.data.list_master
+        var curr_master = list_master[index]
+        console.log(curr_master)
+        var record_id = curr_master["record_id"]
+        var master_id = curr_master["master_id"]
+        var file_id = curr_master["file_id"]
+        var openid = App.globalData.openid
+        var user_id = openid
+        wx.request({
+            url: Conf.updateHeartUrl,
+            method: 'POST',
+            data: {
+                record_id,
+                master_id,
+                file_id,
+                user_id
+            },
+            success: function (res) {
+                console.log('updateHeart:')
+                console.log(res)
+            },
+            fail: (res) => {
+                console.log('updateHeart fail:')
+                console.log(res)
+            }
+        });
+    },
+
+    //--取消心--
+    cancelHeart: function (e) {
+        var that = this
+        var currData = e.currentTarget.dataset
+        var index = currData.idx
+        var list_master = this.data.list_master
+        var curr_master = list_master[index]
+        console.log(curr_master)
+        var record_id = curr_master["record_id"]
+        var master_id = curr_master["master_id"]
+        var file_id = curr_master["file_id"]
+        var openid = App.globalData.openid
+        var user_id = openid
+        wx.request({
+            url: Conf.updateHeartUrl,
+            method: 'POST',
+            data: {
+                record_id,
+                master_id,
+                file_id,
+                user_id
+            },
+            success: function (res) {
+                console.log('updateHeart:')
+                console.log(res)
+            },
+            fail: (res) => {
+                console.log('updateHeart fail:')
+                console.log(res)
+            }
+        });
+    },
+
     uploadRecord: function (e) {
         var that = this
         var recordFile = this.data.recordFile
@@ -482,12 +566,18 @@ Page({
         console.log(this.data)
 
         var mine = {
-                heart: 1,
-                nick_name: nickName,
-                avatar_url: avatarUrl,
-                listenStatus: "listen-off",
-                isLoading: load_list
-            }
+            heart: 1,
+            nick_name: nickName,
+            avatar_url: avatarUrl,
+            listenStatus: "listen-off",
+            boxStyle : "btn-play-box",
+            btnDelStyle : "btn-red-hidden",
+            btnPoiStyle : "btn-red-hidden",
+            heartShape : src_heart,
+            heartStatus : 0,
+            isListen : false,
+            isLoading: load_list
+        }
         var old_lst = this.data.list_master
         old_lst.unshift(mine)
         this.setData({

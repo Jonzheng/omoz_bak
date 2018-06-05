@@ -64,7 +64,7 @@
         <view class="weui-cells record-list">
 
             <block wx:for="{{list_master}}" wx:key="mkey">
-                <template is="ele-master" data="{{...item,index,icon_like,icon_more}}"/>
+                <template is="ele-master" data="{{...item,index,icon_more}}"/>
             </block>
 
         </view>
@@ -122,7 +122,8 @@
         </view>
         <view class="box-right">
             <view class="text-heart">({{heart}})</view>
-            <image src="{{icon_like}}" class="sm-icon"></image>
+            <image src="{{heartShape}}" class="sm-icon" bindtap='updateHeart' bindlongtap='cancelHeart'
+            data-idx="{{index}}" data-status="{{heartStatus}}"></image>
             <image src="{{icon_more}}" class="sm-icon {{btnRt}}" bindtap='showMore' data-idx="{{index}}"></image>
         </view>
     </view>

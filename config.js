@@ -20,6 +20,7 @@ var Conf = {
     updateLoginUrl: `${host}/weapp/updateLogin`,
     updateUserUrl: `${host}/weapp/updateUser`,
     updateRecordUrl: `${host}/weapp/updateRecord`,
+    updateHeartUrl: `${host}/weapp/updateHeart`,
     loginApi: `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&grant_type=authorization_code&js_code=`
 };
 
