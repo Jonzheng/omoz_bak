@@ -1,0 +1,61 @@
+<!--pages/index.wxml-->
+<view class="page">
+    <view class='box-info'>
+
+        <view class='weui-cell box-top'>
+            <image class='avatar' src='{{avatarUrl}}'></image>
+            
+            <view class='nickname'><open-data type="userNickName"></open-data></view>
+
+            <view class='box-coin'>1</view>
+            <image class='coin an-coin' src='{{icon_coin}}'></image>
+            
+        </view>
+
+    <view class='box-cube'>
+        <view class="cube-wrap">
+            <view class="cube depth">
+            
+                <navigator url="../lab/lab" hover-class="cube-view">
+                    <view class="cube-view front-pane">实验室简介</view>
+                </navigator>
+
+                <navigator url="../50/50" hover-class="cube-view">
+                    <view class="cube-view back-pane">五十音图</view>
+                </navigator>
+
+                <view class="cube-view top-pane">卍</view>
+                <view class="cube-view bottom-pane">卍</view>
+                <view class="cube-view left-pane">卍</view>
+                <view class="cube-view right-pane">卍</view>
+            </view>
+        </view>
+    </view>
+
+<!--
+        <view class='box-pet' bindtap='onclick'>
+            <view class='pet an-run'></view>
+
+        <block wx:for="{{taps}}" wx:key=''>
+            <view class='pre-ball an-fall' style='top:{{po_y}}px;left:{{po_x}}px'>
+                <view class="wobble an-wobble">
+                    <image src='../../image/tennis.png' class='ball an-spin'></image>
+                </view>
+            </view>
+        </block>
+            
+        </view>
+        <!--
+        <view class='chest' bindtap='onclick'>
+            <view class='heart left side top'></view>
+            <view class='heart center'></view>
+            <view class='heart right side'></view>
+        </view>
+        -->
+
+    </view>
+
+
+
+
+</view>
